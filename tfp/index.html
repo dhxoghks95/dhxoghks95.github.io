@@ -49,7 +49,34 @@
 		<header class="post__header">
 			<h1 class="post__title">Bayesian Method with TensorFlow Chapter 1. Introduction - 4. TensorFlow Probability(TFP)</h1>
 			
-		</header><div class="content post__content clearfix">
+		</header>
+<div class="post__toc toc">
+	<div class="toc__title"></div>
+	<div class="toc__menu">
+		<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#결합-로그-밀도joint-log-density를-만들어봅시다"><strong>결합 로그-밀도(joint log-density)를 만들어봅시다</strong></a></li>
+        <li><a href="#코드를-위한-사전-설정">코드를 위한 사전 설정</a></li>
+      </ul>
+    </li>
+    <li><a href="#사후-샘플러를-만들어봅시다"><strong>사후 샘플러를 만들어봅시다</strong></a>
+      <ul>
+        <li><a href="#결과를-그래프로-그립시다"><strong>결과를 그래프로 그립시다</strong></a></li>
+        <li><a href="#결과-해석"><strong>결과 해석</strong></a></li>
+        <li><a href="#어쨌든-왜-내가-사후-분포에서-샘플들을-원할까요"><strong>어쨌든 왜 내가 사후 분포에서 샘플들을 원할까요?</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+	</div>
+</div>
+<div class="content post__content clearfix">
 			<h1 id="bayesian-method-with-tensorflow---chapter1-introduction"><strong>Bayesian Method with TensorFlow - Chapter1 Introduction</strong></h1>
 <h1 id="4-tensorflow-probability">4. <strong>TensorFlow Probability</strong></h1>
 <p>TensorFlow Probability(TFP)는 베이지안 분석을 프로그래밍 하기 위한 파이썬 라이브러리입니다. 이것은 데이터 사이언티스트들, 통계학자들, 머신 러닝 개발자들 그리고 과학자들을 위해 만들어졌습니다. 그리고 TensorFlow(TF)를 기반으로 만들어졌기에 베이지안 분석을 할 때 TF의 장점인 빠른 속도를 얻을 수 있습니다. 한 번의 코딩으로 여러 번 활용할 수 있고(당신이 개발한 모델로 제품을 만들 수 있습니다) 그리고 GPU, TPU와 같은 최첨단 하드웨어를 통해 더욱 빠르게 만들 수 있죠.</p>
@@ -417,6 +444,20 @@ plt<span style="color:#f92672">.</span>legend(loc<span style="color:#f92672">=</
 	</div>
 </div>
 
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/distribution/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;</span>
+			<p class="pager__title">Bayesian Method with TensorFlow Chapter 1. Introduction - 3. 확률분포</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/ch1example/" rel="next">
+			<span class="pager__subtitle">&thinsp;»</span>
+			<p class="pager__title">Bayesian Method with TensorFlow Chapter 1. 연습문제 풀이</p>
+		</a>
+	</div>
+</nav>
 
 
 			</div>
@@ -433,5 +474,7 @@ plt<span style="color:#f92672">.</span>legend(loc<span style="color:#f92672">=</
 </footer>
 	</div>
 <script async defer src="/js/menu.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
 </body>
 </html>

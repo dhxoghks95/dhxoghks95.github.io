@@ -49,7 +49,31 @@
 		<header class="post__header">
 			<h1 class="post__title">Bayesian Method with TensorFlow Chapter 3. MCMC(Markov Chain Monte Carlo) - 3. MCMC 수렴성 진단과 팁들</h1>
 			
-		</header><div class="content post__content clearfix">
+		</header>
+<div class="post__toc toc">
+	<div class="toc__title"></div>
+	<div class="toc__menu">
+		<nav id="TableOfContents">
+  <ul>
+    <li><a href="#자기상관성autocorrelation"><strong>자기상관성(Autocorrelation)</strong></a></li>
+    <li><a href="#어떻게-이것을-mcmc의-수렴성과-연관지을-수-있나요"><strong>어떻게 이것을 MCMC의 수렴성과 연관지을 수 있나요?</strong></a></li>
+    <li><a href="#thinning"><strong>Thinning</strong></a></li>
+    <li><a href="#mcmc할-때-유용한-팁들"><strong>MCMC할 때 유용한 팁들</strong></a>
+      <ul>
+        <li><a href="#똑똑한-시작점"><strong>똑똑한 시작점</strong></a></li>
+        <li><a href="#사전-믿음"><strong>사전 믿음</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#결론"><strong>결론</strong></a>
+      <ul>
+        <li><a href="#references"><strong>References</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+	</div>
+</div>
+<div class="content post__content clearfix">
 			<h1 id="bayesian-method-with-tensorflow---chapter3-mcmcmarkov-chain-monte-carlo"><strong>Bayesian Method with TensorFlow - Chapter3 MCMC(Markov Chain Monte Carlo)</strong></h1>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#@title Imports and Global Variables (make sure to run this cell)  { display-mode: &#34;form&#34; }</span>
 
@@ -269,6 +293,20 @@ plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#34;�
 	</div>
 </div>
 
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/bayesiancluster/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;</span>
+			<p class="pager__title">Bayesian Method with TensorFlow Chapter 3. MCMC(Markov Chain Monte Carlo) - 2. 베이지안 군집분석 예제</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/lawoflargen/" rel="next">
+			<span class="pager__subtitle">&thinsp;»</span>
+			<p class="pager__title">Bayesian Method with TensorFlow Chapter4 모두가 알지만 모르는 위대한 이론 - 1. 대수의 법칙</p>
+		</a>
+	</div>
+</nav>
 
 
 			</div>
@@ -285,5 +323,7 @@ plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#34;�
 </footer>
 	</div>
 <script async defer src="/js/menu.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
 </body>
 </html>
