@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Oh Data Science</title>
-    <link>http://example.org/posts/</link>
-    <description>Recent content in Posts on Oh Data Science</description>
+    <title>A First Course In Bayesian Statistical Methods on Oh Data Science</title>
+    <link>http://example.org/categories/a-first-course-in-bayesian-statistical-methods/</link>
+    <description>Recent content in A First Course In Bayesian Statistical Methods on Oh Data Science</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Tue, 09 Feb 2021 19:59:51 +0900</lastBuildDate><atom:link href="http://example.org/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 09 Feb 2021 19:59:51 +0900</lastBuildDate><atom:link href="http://example.org/categories/a-first-course-in-bayesian-statistical-methods/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>A First Cource in Bayesian Statistical Methods Chapter 1. Introduction</title>
       <link>http://example.org/posts/1_introduction/</link>
