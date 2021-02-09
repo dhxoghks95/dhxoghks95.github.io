@@ -6,16 +6,7 @@
     <description>Recent content in Categories on Oh Data Science</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Sun, 07 Feb 2021 18:24:54 +0900</lastBuildDate><atom:link href="http://example.org/categories/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>A First Course in Bayesian Methods</title>
-      <link>http://example.org/categories/a-first-course-in-bayesian-methods/</link>
-      <pubDate>Sun, 07 Feb 2021 18:24:54 +0900</pubDate>
-      
-      <guid>http://example.org/categories/a-first-course-in-bayesian-methods/</guid>
-      <description></description>
-    </item>
-    
+    <lastBuildDate>Thu, 08 Oct 2020 17:17:59 +0900</lastBuildDate><atom:link href="http://example.org/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Bayesian Method with TensorFlow</title>
       <link>http://example.org/categories/bayesian-method-with-tensorflow/</link>

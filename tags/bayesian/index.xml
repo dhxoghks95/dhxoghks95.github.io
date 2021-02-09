@@ -6,16 +6,7 @@
     <description>Recent content in Bayesian on Oh Data Science</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Sun, 07 Feb 2021 18:24:54 +0900</lastBuildDate><atom:link href="http://example.org/tags/bayesian/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>1_introduction</title>
-      <link>http://example.org/posts/1_introduction/</link>
-      <pubDate>Sun, 07 Feb 2021 18:24:54 +0900</pubDate>
-      
-      <guid>http://example.org/posts/1_introduction/</guid>
-      <description>A First Course in Bayesian Statistical Methods 1. 왜 베이지안을 배워야 하는가? 1.1 Introduction 우리는 알려지지 않은 수량(quantity)에 대한 우리의 정보와 믿음을 표현하기 위해 비공식적으로 확률을 자주 사용합니다. 하지만 정보를 표현하기 위해 확률을 사용하는 것은 공식적인 것으로 만들 수 있죠. 정확한 수학적인 관점에서, 확률은 확률과 정보 사이에 관계가 있다는 합리적인 믿음을 수식적으로 표현할 수 있습니다. 그리고 베이즈 법칙은 새로운 정보를 투입해 믿음을 업데이트하는 합리적인 방법론을 제공합니다. 베이즈 법칙을 통한 귀납적인(개별적인 특수한 사실이나 현상에서 그러한 사례들이 포함되는 일반적인 결론을 이끌어내는 추론) 학습 과정을 바로 베이지안 추론이라고 부릅니다.</description>
-    </item>
-    
+    <lastBuildDate>Thu, 08 Oct 2020 17:17:59 +0900</lastBuildDate><atom:link href="http://example.org/tags/bayesian/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Bayesian Method with TensorFlow Chapter6 사전 분포 결정하기 - 4. Conjugate Prior</title>
       <link>http://example.org/conjugate/</link>
