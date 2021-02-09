@@ -178,7 +178,7 @@ plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#39;p
 plt<span style="color:#f92672">.</span>legend()
 
 plt<span style="color:#f92672">.</span>show();
-</code></pre></div><p><img src="output_26_0.png" alt="png"></p>
+</code></pre></div><p><img src="https://user-images.githubusercontent.com/57588650/107350101-5c76c800-6b0c-11eb-8712-ef026d0871cd.png" alt="output_26_0"></p>
 <p><strong>그림 1.1.</strong> 이 그래프들은 감염율 예시의 샘플링 모델, 사전분포, 사후분포입니다. 왼쪽의 그래프는 세 가지 $\theta$ 값에 따른 $\text{binomial}(20, \theta)$를 보여줍니다. 오른쪽의 그래프는 $\theta$의 사전(회색), 사후(검은색) 확률 밀도 함수를 나타냅니다.</p>
 <h3 id="사전-분포"><em>사전 분포</em></h3>
 <p>다른 여러 나라들의 연구에 따르면, 비슷한 도시에서의 감염률은 0.05와 0.20 사이에서 평균 0.10의 값을 보인다고 알려져있습니다. 이 사전정보는 우리의 사전 분포 $p(\theta)$로 (0.05, 0.20) 범위 안에서 기댓값이 0.10에 가까운 확률을 할당하는 분포를 사용해야 한다고 제안합니다. 그러나 이 조건을 만족하는 분포는 무수히 많고 이 중 어떤걸 사용해야하는지 우리의 제한된 사전 정보로는 구별해낼 수 없습니다. 그렇기 때문에 우리는 위에서 설명한 특성을 만족하고 computational 측면에서 편리한 $p(\theta)$를 사용할 것입니다. 구체적으로 우리는 사전 분포를 베타 분포족(family of beta distribution)에 피팅시킬 것입니다. 베타 분포는 두 개의 파라미터 a, b를 가집니다. 만일 $\theta$가 $\text{beta}(a,b)$라면, $\theta$의 기댓값은 $a/(a+b)$이고 최빈값은 $(a-1)/(a-1+b-1)$입니다. $\theta$가 감염률인 우리의 문제에서, $\theta$에 대한 사전 분포를 $\text{beta}(2,20)$의 확률 분포로 나타낼 것입니다. 이것을 기호로 나타내면 다음과 같습니다.</p>
