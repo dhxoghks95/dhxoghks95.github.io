@@ -256,12 +256,20 @@ $$</p>
 <p>$$
 \text{Pr}(Y = y | \theta) = \text{dbinom}(y,n,\theta) = \binom n y \theta^y(1-\theta)^{n-y}.
 $$</p>
-<p>예를 들어 만약 $\theta = .25$이고 $n = 4$라면 다음과 같은 값을 계산할 수 있습니다.
-$$
-\text{Pr}(Y = 0| \theta = .25) = \binom 4 0 (.25)^0(.75)^4 = .316 \<br>
-\text{Pr}(Y = 1| \theta = .25) = \binom 4 1 (.25)^1(.75)^3 = .422 \<br>
-\text{Pr}(Y = 2| \theta = .25) = \binom 4 2 (.25)^2(.75)^2 = .211 \<br>
-\text{Pr}(Y = 3| \theta = .25) = \binom 4 3 (.25)^3(.75)^1 = .047 \<br>
+<p>예를 들어 만약 $\theta = .25$이고 $n = 4$라면 다음과 같은 값을 계산할 수 있습니다.</p>
+<p>$$
+\text{Pr}(Y = 0| \theta = .25) = \binom 4 0 (.25)^0(.75)^4 = .316
+$$</p>
+<p>$$
+\text{Pr}(Y = 1| \theta = .25) = \binom 4 1 (.25)^1(.75)^3 = .422
+$$</p>
+<p>$$
+\text{Pr}(Y = 2| \theta = .25) = \binom 4 2 (.25)^2(.75)^2 = .211
+$$</p>
+<p>$$
+\text{Pr}(Y = 3| \theta = .25) = \binom 4 3 (.25)^3(.75)^1 = .047
+$$</p>
+<p>$$
 \text{Pr}(Y = 4| \theta = .25) = \binom 4 4 (.25)^4(.75)^0 = .004.
 $$</p>
 <p><em>Example : 포아송 분포</em></p>
@@ -271,10 +279,18 @@ $$</p>
 $$</p>
 <p>예를 들어, 만약 $\theta = 2.1$이라면 다음과 같습니다. (2006년의 미국 출산율 데이터),</p>
 <p>$$
-\text{Pr}(Y = 0 | \theta = 2.1) = (2.1)^0e^{-2.1}/(0!) = .12 \<br>
-\text{Pr}(Y = 0 | \theta = 2.1) = (2.1)^0e^{-2.1}/(0!) = .12 \<br>
-\text{Pr}(Y = 0 | \theta = 2.1) = (2.1)^0e^{-2.1}/(0!) = .12 \<br>
-\text{Pr}(Y = 0 | \theta = 2.1) = (2.1)^0e^{-2.1}/(0!) = .12 \<br>
+\text{Pr}(Y = 0 | \theta = 2.1) = (2.1)^0e^{-2.1}/(0!) = .12
+$$</p>
+<p>$$
+\text{Pr}(Y = 0 | \theta = 2.1) = (2.1)^0e^{-2.1}/(0!) = .12
+$$</p>
+<p>$$
+\text{Pr}(Y = 0 | \theta = 2.1) = (2.1)^0e^{-2.1}/(0!) = .12
+$$</p>
+<p>$$
+\text{Pr}(Y = 0 | \theta = 2.1) = (2.1)^0e^{-2.1}/(0!) = .12
+$$</p>
+<p>$$
 \vdots \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \vdots \ \ \  \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \vdots
 $$</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#f92672">as</span> plt
