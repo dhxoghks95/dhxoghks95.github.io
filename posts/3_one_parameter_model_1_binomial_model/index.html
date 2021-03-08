@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>A First Course in Bayesian Statistical Methods Chapter 3 . One parameter model - Oh Data Science</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="A First Course in Bayesian Statistical Methods Chapter 3 . One parameter model" />
+<meta property="og:description" content="A First Course in Bayesian Statistical Methods 3. 파라미터가 하나인 모델(One-parameter models) One parameter model
+하나의 미지의 파라미터에 의해 결정되는 표본 분포(sampling distribution)
+이번 챕터에서 다룰 분포의 종류
+ 이항 모델(Binomial model) 포아송 모델(Poisson model)  이번 챕터에서는 다음과 같은 세 가지 기본적인 베이지안 데이터 분석을 배워볼 것입니다.
+ 켤레 사전 분포(Conjugate Prior Distribution) 사후 예측 분포(Posterior Predictive Distribution) 신뢰 영역(Confidence Region : 신뢰구간의 다차원 버전)  3.1 이항 모델(The binomial model) 행복 데이터 대상 : 65세 이상 여성 129명(exchangeable)" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/posts/3_one_parameter_model_1_binomial_model/" />
+<meta property="article:published_time" content="2021-03-08T20:50:13+09:00" />
+<meta property="article:modified_time" content="2021-03-08T20:50:13+09:00" />
+
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo">
+		<a class="logo__link" href="/" title="Oh Data Science" rel="home">
+			<div class="logo__item logo__text">
+					<div class="logo__title">Oh Data Science</div>
+					
+				</div>
+		</a>
+	</div>
+		<div class="divider"></div>
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">A First Course in Bayesian Statistical Methods Chapter 3 . One parameter model</h1>
+			
+		</header>
+<div class="post__toc toc">
+	<div class="toc__title"></div>
+	<div class="toc__menu">
+		<nav id="TableOfContents">
+  <ul>
+    <li><a href="#3-파라미터가-하나인-모델one-parameter-models">3. 파라미터가 하나인 모델(One-parameter models)</a></li>
+    <li><a href="#31-이항-모델the-binomial-model">3.1 이항 모델(The binomial model)</a>
+      <ul>
+        <li><a href="#행복-데이터">행복 데이터</a></li>
+        <li><a href="#균등-사전-분포uniform-prior-distribution">균등 사전 분포(Uniform prior distribution)</a></li>
+        <li><a href="#데이터와-사후-분포">데이터와 사후 분포</a></li>
+        <li><a href="#베타-분포">베타 분포</a></li>
+        <li><a href="#311-교환-가능한-이항binary-데이터-추론">3.1.1 교환 가능한 이항(binary) 데이터 추론</a></li>
+        <li><a href="#uniform-사전-분포-하에서의-사후분포-추론"><em>Uniform 사전 분포 하에서의 사후분포 추론</em></a></li>
+        <li><a href="#이항-분포"><em>이항 분포</em></a></li>
+        <li><a href="#정의-4-켤레conjugate">정의 4 (켤레(Conjugate))</a></li>
+        <li><a href="#312-신뢰-영역confidence-regions">3.1.2 신뢰 영역(Confidence Regions)</a></li>
+        <li><a href="#최고-사후-밀도highest-posterior-density-hpd-구간">최고 사후 밀도(Highest Posterior Density, HPD) 구간</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+	</div>
+</div>
+<div class="content post__content clearfix">
+			<h1 id="a-first-course-in-bayesian-statistical-methods">A First Course in Bayesian Statistical Methods</h1>
+<h2 id="3-파라미터가-하나인-모델one-parameter-models">3. 파라미터가 하나인 모델(One-parameter models)</h2>
+<p><strong>One parameter model</strong></p>
+<p>하나의 미지의 파라미터에 의해 결정되는 표본 분포(sampling distribution)</p>
+<p>이번 챕터에서 다룰 분포의 종류</p>
+<ul>
+<li>이항 모델(Binomial model)</li>
+<li>포아송 모델(Poisson model)</li>
+</ul>
+<p>이번 챕터에서는 다음과 같은 세 가지 기본적인 베이지안 데이터 분석을 배워볼 것입니다.</p>
+<ul>
+<li>켤레 사전 분포(Conjugate Prior Distribution)</li>
+<li>사후 예측 분포(Posterior Predictive Distribution)</li>
+<li>신뢰 영역(Confidence Region : 신뢰구간의 다차원 버전)</li>
+</ul>
+<h2 id="31-이항-모델the-binomial-model">3.1 이항 모델(The binomial model)</h2>
+<h3 id="행복-데이터">행복 데이터</h3>
+<p>대상 : 65세 이상 여성 129명(exchangeable)</p>
+<p>$$
+Y_i = \begin{cases} 1 \ \ \ \text{i 번째 응답자가 행복이라고 답함} \newline 0 \ \ \ \text{그 외} \end{cases}
+$$</p>
+<p>이 때, 샘플 129개가 모집단의 크기 $N$보다 작으므로, 이전 장에서 배운 것 처럼 $Y_1, &hellip;, Y_{129}$는 다음과 같이 잘 근사됩니다.</p>
+<ul>
+<li>$\theta$에 대한 믿음 = $\sum^n_{i=1} Y_i / N$;</li>
+<li>$Y_i|\theta$ = 기댓값이 $\theta$이고 i.i.d인 이항 확률 변수(binomial random variable)</li>
+</ul>
+<p>즉 {$y_i, &hellip;, y_{129}$}의 잠재적 산출물의 확률은 다음과 같습니다.</p>
+<p>$$
+p(y_1, &hellip;, y_{129} | \theta) = p(y_1|\theta) \ p(y_2|\theta) \ &hellip; \ p(y_{129}|\theta)
+$$</p>
+<p>$$
+= \prod^{129}<em>{i=1} \theta^{y_i} (1 - \theta)^{1 - y_i} = \theta^{\sum^{129}</em>{i=1}y_i}(1-\theta)^{129 - \sum^{129}_{i=1}y_i}
+$$</p>
+<p>이제 필요한 것은 사전 분포입니다.</p>
+<h3 id="균등-사전-분포uniform-prior-distribution">균등 사전 분포(Uniform prior distribution)</h3>
+<p>$\theta$ : 0과 1 사이의 값</p>
+<p>여기서, 우리의 사전 정보를 [0,1]에서 같은 길이와 같은 확률을 가지는 부분 구간(subinterval)로 가정합시다. 수식으로 표현하면 다음과 같습니다.</p>
+<p>$$
+Pr(a \leq \theta \leq b) = Pr( a+c \leq \theta \leq b+c) \ \ for \ \ 0 \leq a &lt; b &lt; b+c \leq 1
+$$</p>
+<p>위 식은 c에 의해 구간의 위치가 변하더라도, 0과 1 사이에서 길이가 b-a라면 같은 확률을 가진다는 것을 의미합니다.</p>
+<p>이러한 균등 확률 밀도 함수는 다음과 같이 쓸 수 있습니다 :</p>
+<p>$$
+p(\theta) = 1 \text{ for all} \ \theta \in [0,1].
+$$</p>
+<p>베이즈의 법칙을 사용해 사전 분포와 위의 표본 추출 모델을 결합하면 다음과 같습니다.</p>
+<p>$$
+p(\theta | y_1, &hellip;, y_{129}) = \frac{y_1, &hellip;, y_{129})p(\theta)}{p(y_1, &hellip;, y_{129}} ( \rightarrow \ p(\theta) = 1)
+$$</p>
+<p>$$
+= p(y_1, &hellip;, y_{129}|\theta) \times \frac{1}{p(y_1, &hellip;, y_{129})} ( \rightarrow \text{분모 부분은} \ \theta \text{에 의존하지 않음})
+$$</p>
+<p>$$
+\propto p(y_1, &hellip;, y_{129}|\theta)
+$$</p>
+<p>이 식의 의미하는 것은 사후 분포 $p(\theta|y_1, &hellip;, y_{129})$가 $p(y_1, &hellip;, y_{129}|\theta)$를 $\theta$에 의존하지 않는 어떠한 식으로 나눈 것과 같다는 것입니다(즉 각자 $\theta$에 대한 함수로서 서로 비례한다(proprotional)). 즉 이 두 가지 $\theta$에 대한 함수가 모양은 같으나 scale이 다르다는 것을 의미합니다.</p>
+<h3 id="데이터와-사후-분포">데이터와 사후 분포</h3>
+<ul>
+<li>총 129명의 대상에게 설문조사 실시</li>
+<li>118명의 사람이 행복하다고 응답(91%)</li>
+<li>11명의 사람이 일반적으로 행복하지 않다고 응답{9%)</li>
+</ul>
+<p>즉 $\theta$가 주어졌을 때 이 데이터들의 확률은 다음과 같습니다.</p>
+<p>$$
+p(y_1, &hellip;, y_{129}|\theta) = \theta^{118}(1-\theta)^{11}
+$$</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#f92672">as</span> plt
+<span style="color:#f92672">%</span>matplotlib inline
+plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">12</span>,<span style="color:#ae81ff">6</span>))
+<span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#f92672">from</span> scipy.stats <span style="color:#f92672">import</span> binom, beta
+
+<span style="color:#75715e"># Panel 1</span>
+
+ax1 <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplot(<span style="color:#ae81ff">311</span>)
+
+k <span style="color:#f92672">=</span> <span style="color:#ae81ff">118</span> <span style="color:#75715e"># 행복하다고 응답한 사람의 수</span>
+n <span style="color:#f92672">=</span> <span style="color:#ae81ff">129</span> <span style="color:#75715e"># 전체 응답자 수</span>
+
+theta <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linspace(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">100</span>) <span style="color:#75715e"># theta는 0부터 1까지 </span>
+sampling_model <span style="color:#f92672">=</span> binom<span style="color:#f92672">.</span>pmf(<span style="color:#ae81ff">118</span>, n, theta) 
+plt<span style="color:#f92672">.</span>plot(theta, sampling_model ,color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;grey&#39;</span>)
+plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$p(y_1, ... ,y_{129} | \theta)$&#39;</span>)
+plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$\theta$&#39;</span>)
+
+
+
+
+<span style="color:#75715e"># Panel 2</span>
+  
+ax2 <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplot(<span style="color:#ae81ff">313</span>)
+
+posterior <span style="color:#f92672">=</span> beta<span style="color:#f92672">.</span>pdf(theta, <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> k, <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">129</span> <span style="color:#f92672">-</span> k)
+plt<span style="color:#f92672">.</span>plot(theta, posterior, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;k&#39;</span>, label <span style="color:#f92672">=</span> <span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$p(\theta | y)$&#39;</span>)
+plt<span style="color:#f92672">.</span>yticks([<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">15</span>])
+plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$\theta$&#39;</span>)
+plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$p(\theta | y_1, ..., y_{129})$&#39;</span>)
+plt<span style="color:#f92672">.</span>axhline(<span style="color:#ae81ff">1</span>)
+
+plt<span style="color:#f92672">.</span>show()
+</code></pre></div><p><img src="https://user-images.githubusercontent.com/57588650/110318030-5531d400-8050-11eb-85c7-6da67199ef19.png" alt="output_17_0"></p>
+<p><strong>그림. 3.1.</strong> 위의 그래프는 데이터의 표본 확률을, 아래 그래프는 사후 분포를 $\theta$에 대한 식으로 나타낸 것입니다. 여기서 주목할 점은 균등 분포로 표현된 사전 분포가(아래 그래프에서 하늘색 직선) 표본 확률에 비례하는 사후 분포를 산출해낸다는 것입니다.</p>
+<p>위의 그래프에서 볼 수 있듯, 표본 확률과 사후 확률 $p(\theta|y_1, &hellip;, y_{129})$의 모양이 같습니다. 즉 $\theta$의 실제 값은 0.91 근처, 최소한 0.8 이상일 확률이 매우 높습니다.</p>
+<p>그러나 더 정확한 값을 구하기 위해서는 모양 뿐만 아니라 $p(\theta|y_1, &hellip;, y_n)의 크기 또한 알아야 합니다. 베이즈 법칙에서 다음을 구할 수 있었습니다.</p>
+<p>$$
+p(\theta|y_1, &hellip;,y_{129}) = \theta^{118} (1 - \theta)^11 \times p(\theta) / p(y_1, &hellip;, y_{129})
+$$</p>
+<p>$$
+= \theta^{118}(1 - \theta)^{11} \times 1 / p(y_1, &hellip;, y_{129})
+$$</p>
+<p>그런데 스케일, 또는 &ldquo;정규화 상수(normalizing constant)&ldquo;라고 불리는 $1/p(y_1, &hellip;, y_{129})$는 다음과 같은 적분을 통해 계산할 수 있음이 밝혀졌습니다.</p>
+<p>$$
+\int^1_0 \theta^{a-1}(1 - \theta)^{b -1} d \theta = \frac{\Gamma(a)\Gamma(b)}{\Gamma(a+b)}.(\text{여기서} \ \Gamma (a) \ \text{는} (a-1)!)
+$$</p>
+<p>계산)</p>
+<ul>
+<li>조건1. $\int^1_0 p(\theta|y_1, &hellip;, y_{129}) = 1$</li>
+<li>조건2. $p(\theta|y_1, &hellip;,y_{129}) = \theta^{118}(1 - \theta)^{11} \times 1 / p(y_1, &hellip;, y_{129})$ (베이즈 법칙)</li>
+</ul>
+<p>$$
+1 = \int^1_0 p(\theta | y_1, &hellip;, y_{129}) d\theta \ (\text{조건 1 사용})
+$$</p>
+<p>$$
+1 = \int^1_0 \theta^{118}(1 - \theta)^{11} / p(y_1, &hellip;, y_{129}) d\theta (\text{조건 2 사용})
+$$</p>
+<p>$$
+1 = \frac{1}{p(y_1, &hellip;, y_{129})} \int^1_0 \theta^{118}(1-\theta)^{11} d\theta
+$$</p>
+<p>$$
+1 = \frac{1}{p(y_1, &hellip;, y_{129})} \frac{\Gamma(119) \Gamma(12)}{\Gamma(131)} \ \ \ \text{(위의 계산 결과를 사용)}
+$$</p>
+<p>즉</p>
+<p>$$
+p(y_1, &hellip;, y_{129}) = \frac{\Gamma(119) \Gamma(12)}{\Gamma(131)}
+$$</p>
+<p>라는 결과가 나오게 되고 이것은 118개의 1이 있고 11개의 0이 있는 수열 {$y_1, &hellip;, y_{129}$} 모두에 적용됩니다. 자 이제 모두를 합쳐봅시다</p>
+<p>$$
+p(\theta|y_1, &hellip;, y_{129}) = \frac{\Gamma(131)}{\Gamma(119) \Gamma(12)} \theta^{118}(1 - \theta)^{11}
+$$</p>
+<p>$$
+= \frac{\Gamma(131)}{\Gamma(119) \Gamma(12)} \theta^{119 -1}(1-\theta)^{12-1}.
+$$</p>
+<p>익숙한 식 아닌가요? 바로 모수가 $\alpha = 119, \beta = 12$인 베타 분포입니다. 위의 그래프를 그릴 때 알 수 있듯, 베타 분포는 파이썬에서 scipy.stats.beta.pmf($\theta$, a, b)를 통해 계산할 수 있습니다.</p>
+<h3 id="베타-분포">베타 분포</h3>
+<p>0과 1 사이의 미지의 수 $\theta$는 다음과 같은 $beta(a,b)$ 분포를 가지게 됩니다.</p>
+<p>$$
+p(\theta) = \text{scipy.stats.beta.pmf}(\theta, a, b) = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)} \theta^{a-1}(1-\theta)^{b-1} \ \ \text{for} \ 0 \leq \theta \leq 1.
+$$</p>
+<p>mode = $\frac{a-1}{(a-1) + (b-1)}$ if a &gt; 1 &amp; b &gt; 1;</p>
+<p>E($\theta$) = $\frac{a}{a+b}$</p>
+<p>Var($\theta$) = $\frac{ab}{(a+b+1)(a+b)^2} = E[\theta] \times \frac{E[1-\theta]}{a + b + 1}$</p>
+<h3 id="311-교환-가능한-이항binary-데이터-추론">3.1.1 교환 가능한 이항(binary) 데이터 추론</h3>
+<h3 id="uniform-사전-분포-하에서의-사후분포-추론"><em>Uniform 사전 분포 하에서의 사후분포 추론</em></h3>
+<p>만약</p>
+<p>$$
+Y_1, &hellip;, Y_n | \theta \sim^{\text{i.i.d.}} \ \text{binary}(\theta)
+$$</p>
+<p>라면 다음과 같은 식이 성립함을 위에서 증명했습니다.</p>
+<p>$$
+p(\theta|y_1, &hellip;, y_n) = \theta^{\Sigma y_1} (1-\theta)^{n - \Sigma y_i} \times p(y_1, . . ., y_n).
+$$</p>
+<p>그렇다면, 어떠한 두 $\theta$값 $\theta_a, \theta_b$일 때의 확률의 비율을 구해보면 다음과 같습니다.</p>
+<p>$$
+\frac{p(\theta_a|y_1, &hellip;, y_n)}{p(\theta_b|y_1, &hellip;, y_n)} = \frac{\theta_a^{\Sigma y_1} (1-\theta_a)^{n - \Sigma y_i} \times p(y_1, . . ., y_n)}{\theta_b^{\Sigma y_1} (1-\theta_b)^{n - \Sigma y_i} \times p(y_1, . . ., y_n)}
+$$</p>
+<p>$$
+= \bigg ( \frac{\theta_a}{\theta_b} \bigg)^{\Sigma y_i}  \bigg(\frac{1-\theta_a}{1-\theta_b} \bigg)^{n - \Sigma y_i} \frac{\theta_a}{\theta_b}
+$$</p>
+<p>즉, $\theta_b$에 대한 $\theta_a$의 상대 확률 밀도는 오직 $\sum^n_{i=1}y_i$를 통해서만 $y_1, &hellip;, y_n$에 의존합니다. 이는 $y_i$가 어떤 순서로 나열되어 있든지 모든 $y_1, &hellip;, y_n$의 합을 통해 데이터 $y_1, &hellip;, y_n$이 주어졌을 때 두 $\theta$값을 가질 확률의 비율을 구할 수 있다는 뜻입니다. 따라서 이 상황에서 $y_1, &hellip;, y_n$은 교환가능합니다. 즉 다음과 같이 쓸 수 있습니다.</p>
+<p>$$
+Pr(\theta \in A | Y_1 = y_1, &hellip; , Y_n = y_n) = Pr \bigg( \theta \in A | \sum^n_{i=1}Y_i = \sum^n_{i=1}y_i \bigg)
+$$</p>
+<p>이것이 의미하는 것은, $\sum Y_i$만으로도 충분히 $\theta$와 $p(y_1, &hellip;, y_n | \theta)를 추론할 수 있기 때문에 이것이 &lsquo;충분 통계량(sufficient statistic)&lsquo;이란 것입니다. 이 상황에서는</p>
+<p>$$
+Y_1, &hellip;, Y_n | \theta \sim^{\text{i.i.d.}} \text{binary}(\theta)
+$$</p>
+<p>이기 때문에, 충분 통계량 $Y = \Sigma^n_{i=1}Y_i$는 파라미터가 ($n, \theta$)인 이항 분포(binomial distribution)입니다.</p>
+<h3 id="이항-분포"><em>이항 분포</em></h3>
+<p>확률변수 $Y \in$ {0,1,..,n}은 다음과 같은 pmf를 가질 때 binomial($n, \theta$) 분포를 가진다고 합니다.</p>
+<p>$$
+Pr(Y=y|\theta) = \text{scipy.stats.binom.pmf}(y,n,\theta) = \binom n y \theta^y(1-\theta)^{n-y}, y \in (0,1,&hellip;,n)
+$$</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#f92672">as</span> plt
+<span style="color:#f92672">%</span>matplotlib inline
+plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">12</span>,<span style="color:#ae81ff">7</span>))
+<span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#f92672">from</span> scipy.stats <span style="color:#f92672">import</span> binom
+
+<span style="color:#75715e"># n = 10, theta = 0.2</span>
+
+ax1 <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplot(<span style="color:#ae81ff">221</span>)
+
+x1 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">11</span>,<span style="color:#ae81ff">1</span>)
+
+y1 <span style="color:#f92672">=</span> binom<span style="color:#f92672">.</span>pmf(x1, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">0.2</span>)
+
+ax1<span style="color:#f92672">.</span>bar(x1, y1, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.1</span>)
+plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$p(Y=y|\theta = 0.2, n=10)$&#39;</span>)
+plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#39;y&#39;</span>)
+plt<span style="color:#f92672">.</span>ylim(<span style="color:#f92672">-</span><span style="color:#ae81ff">0.01</span>,<span style="color:#ae81ff">0.31</span>)
+
+
+<span style="color:#75715e"># n = 10, theta = 0.8</span>
+
+ax2 <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplot(<span style="color:#ae81ff">222</span>)
+
+x1 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">11</span>,<span style="color:#ae81ff">1</span>)
+
+y1 <span style="color:#f92672">=</span> binom<span style="color:#f92672">.</span>pmf(x1, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">0.8</span>)
+
+ax2<span style="color:#f92672">.</span>bar(x1, y1, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.1</span>)
+plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$p(Y=y|\theta = 0.8, n=10)$&#39;</span>)
+plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#39;y&#39;</span>)
+plt<span style="color:#f92672">.</span>ylim(<span style="color:#f92672">-</span><span style="color:#ae81ff">0.01</span>,<span style="color:#ae81ff">0.31</span>)
+
+<span style="color:#75715e"># n = 100, theta = 0.2</span>
+
+
+ax2 <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplot(<span style="color:#ae81ff">223</span>)
+
+x2 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">101</span>,<span style="color:#ae81ff">1</span>)
+
+y2 <span style="color:#f92672">=</span> binom<span style="color:#f92672">.</span>pmf(x2, <span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">0.2</span>)
+
+ax2<span style="color:#f92672">.</span>bar(x2, y2, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.6</span>)
+plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$p(Y=y|n = 100, \theta = 0.2)$&#39;</span>)
+plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#39;y&#39;</span>)
+plt<span style="color:#f92672">.</span>ylim(<span style="color:#f92672">-</span><span style="color:#ae81ff">0.001</span>, <span style="color:#ae81ff">0.11</span>)
+
+<span style="color:#75715e"># n = 100, theta = 0.8</span>
+
+ax2 <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplot(<span style="color:#ae81ff">224</span>)
+
+x2 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">101</span>,<span style="color:#ae81ff">1</span>)
+
+y2 <span style="color:#f92672">=</span> binom<span style="color:#f92672">.</span>pmf(x2, <span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">0.8</span>)
+
+ax2<span style="color:#f92672">.</span>bar(x2, y2, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.6</span>)
+plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$p(Y=y|n = 100, \theta = 0.8)$&#39;</span>)
+plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#39;y&#39;</span>)
+plt<span style="color:#f92672">.</span>ylim(<span style="color:#f92672">-</span><span style="color:#ae81ff">0.001</span>, <span style="color:#ae81ff">0.11</span>)
+plt<span style="color:#f92672">.</span>show();
+</code></pre></div><p><img src="https://user-images.githubusercontent.com/57588650/110318034-55ca6a80-8050-11eb-913a-6ffc56668346.png" alt="output_41_0"></p>
+<p><strong>그림 3.2. &amp; 3.3.</strong> n=10, 100이고 $\theta \in$ {0.2, 0.8} 일 때의 이항분포 그래프들</p>
+<p>$\theta$가 주어졌을 때, 이항분포의 통계량 :</p>
+<p>$$
+E[Y|\theta] = n\theta
+$$</p>
+<p>$$
+Var[Y|\theta] = n\theta(1-\theta)
+$$</p>
+<p><strong>사후분포</strong></p>
+<p>데이터 $Y=y$가 관찰됐을 때 $\theta$의 사후 분포는 다음과 같이 구할 수 있습니다.</p>
+<p>$$
+p(\theta|y) = \frac{p(y|\theta)p(\theta)}{p(y)}
+$$</p>
+<p>$$
+=\frac{\binom n y \theta^y(1-\theta)^{n-y}p(\theta)}{p(y)}
+$$</p>
+<p>$$
+= c(y)\theta(y)(1-\theta)^{n-y}p(\theta) \ \ , \ \ (c(y) = \theta\text{와 관련 없는} y \text{에 관한 함수})
+$$</p>
+<p>이 때, 위에서 배운 방법으로 정규화 상수(normalizing constant) $c(y)$를 다음과 같이 구할 수 있습니다.</p>
+<p>$$
+1 = \int^1_0 c(y) \theta^y (1-\theta)^{n-y} d\theta
+$$</p>
+<p>$$
+1 = c(y) \int^1_0 \theta^y (1-\theta)^{n-y} d\theta
+$$</p>
+<p>$$
+1 = c(y) \frac{\Gamma(y+1)\Gamma(n-y+1)}{\Gamma(n+2)}.
+$$</p>
+<p>$$
+\therefore c(y) = \frac{\Gamma{n+2}}{\Gamma(y+1)\Gamma(n-y+1)}
+$$</p>
+<p>이를 위의 사후분포 식에 대입하면 다음과 같은 결과를 얻을 수 있습니다.</p>
+<p>$$
+p(\theta|y) = \frac{\Gamma(n+2)}{\Gamma(y+1)\Gamma(n - y + 1)} \theta^y(1-\theta)^{n-y}
+$$</p>
+<p>$$
+= \frac{\Gamma(n+2)}{\Gamma(y+1)\Gamma(n - y + 1)} \theta^{(y+1)-1} (1-\theta)^{(n-y+1) - 1}
+$$</p>
+<p>$$
+= beta(y+1, n-y+1)
+$$</p>
+<p>행복 데이터를 예시에서, $Y \equiv \Sigma Y_i = 118$이고</p>
+<p>$$
+n = 129, Y \equiv \Sigma Y_i = 118 \Rightarrow \theta|(Y = 118) \sim beta(119,12)
+$$</p>
+<p>임을 확인했습니다.</p>
+<p>즉 $\Sigma y_i = y = 118$일 때, $p(\theta|y_1, &hellip;, y_n) = p(\theta|y) = beta(119,12)$임을 보이는 것이 이 모델과 사전 분포의 결과물로 충분합니다.</p>
+<p>다른 말로 표현하자면, {$Y_1 = y_1, &hellip;, Y_n = y_n$}이 포함하고 있는 정보는 $Y = \Sigma Y_i, y = \Sigma y_i$일 때 {$Y=y$}가 포함하고 있는 정보와 같습니다.</p>
+<p><strong>베타 사전 분포 하에서의 사후 분포</strong></p>
+<p>$p(\theta) = 1$인 균등 분포는 다음과 같이 $a=1, b=1$인 베타 분포를 따른다고 볼 수 있습니다.</p>
+<p>$$
+p(\theta) = \frac{\Gamma(2)}{\Gamma(1)\Gamma(1)} \theta^{1-1} (1 - \theta)^{1-1} = \frac{1}{1 \times 1} = 1
+$$</p>
+<p>이전 단락(사후 분포)에서 다음과 같은 결과를 얻었습니다.</p>
+<p>$$
+\text{만약} \ \begin{cases} \theta \sim beta(1,1) \ (\text{uniform}) \newline Y \sim \text{binomial}(n, \theta) \end{cases} \text{라면}, (\theta|Y=y) \sim beta(1+y, 1+n-y)
+$$</p>
+<p>즉 우리의 사전 분포가 beta(a = 1, b = 1)일 때, 사후 분포를 구하기 위해서는 파라미터 $a$에 1을 더하고, $b$에 {$y_1, &hellip;, y_n$}중 0의 갯수를 더하기만 하면 됩니다.</p>
+<p>이제 이 방법이 임의의 베타 분포에도 적용되는지 봅시다.</p>
+<p>$$
+\theta \sim beta(a,b)
+$$</p>
+<p>$$
+Y|\theta \sim binomial(n,\theta)
+$$</p>
+<p>일 때,</p>
+<p>$$
+p(\theta|y) = \frac{p(\theta)p(y|\theta)}{p(y)}
+$$</p>
+<p>$$
+= \frac{1}{p(y)} \times \underbrace{\frac{\Gamma(a+b)}{\Gamma(a) \Gamma(b)} \theta^{a-1}(1-\theta)^{b-1}}<em>{p(\theta)} \times \underbrace{\binom n y \theta^y (1-\theta)^{n-y}}</em>{p(y|\theta)}
+$$</p>
+<p>$$
+= c(n,y,a,b) \times \theta^{a + y - 1} (1-\theta)^{b+n-y-1} \ , \ \ (c(n,y,a,b) = n,y,a,b \text{에 의존하는 정규화 상수})
+$$</p>
+<p>$$
+= \text{scipy.stats.beta.pdf}(\theta, a+y, b+n-y)
+$$</p>
+<p>라고 구할 수 있습니다.</p>
+<p>이 연산에서 가장 중요한 것은 마지막 두 라인입니다. 밑에서 두 번째 라인에서 볼 수 있듯이 $p(\theta|y)$가 $\theta$에 대한 함수이기 때문에 c(n,y,a,b)는 상수로 취급되고, 이것은 $p(\theta|y)$가 $\theta^{a + y - 1} (1-\theta)^{b+n-y-1}$와 비례한다는 것을 의미합니다. 즉 scipy.stats.beta.pdf($\theta, a+y, b+n-y$)와 같은 모양이라는 뜻이죠.</p>
+<p>또한 $p(\theta|y)$와 scipy.stats.beta.pdf($\theta, a+y, b+n-y$)가 모두 적분하면 1이므로 스케일 또한 같습니다. 즉 사실은 $p(\theta|y)$와 scipy.stats.beta.pdf($\theta, a+y, b+n-y$)는 같은 함수인 것입니다.</p>
+<p>앞으로 계속해서 이를 활용해 우리는 사후 분포가 어떠한 알려진 확률 밀도 함수와 비례하고, 따라서 그 확률 밀도 함수와 반드시 같다는 것을 찾아내볼 것입니다.</p>
+<p><strong>켤레성(Conjugacy)</strong></p>
+<p>지금까지 배운 &ldquo;베타 사전 분포와 이항 표본 모델이 결합되어 베타 사후 분포를 만드는 것&quot;을 베타 사전 분포의 클래스가 이항 표본 모델의 &ldquo;켤레(congutate)&ldquo;라고 부릅니다.</p>
+<h3 id="정의-4-켤레conjugate">정의 4 (켤레(Conjugate))</h3>
+<p>만약 다음이 성립한다면, $\theta$의 사전 분포의 클래스 $\mathcal{P}$를 표본 모델 $p(y|\theta)$의 &ldquo;켤레(conjugate)&ldquo;라고 부릅니다.</p>
+<p>$$
+p(\theta) \in \mathcal{P} \Rightarrow p(\theta|y) \in \mathcal{P}
+$$</p>
+<p>켤레 사전 분포(conjugate prior)를 이용한다면, 계산을 쉽게 할 수는 있지만 우리의 실제 사전 정보를 반영하긴 쉽지 않습니다. 그러나 켤레 사전 분포들을 결합한다면, 아주 유연하고 계산을 추적 가능(computationally tractable)하게 만들 수 있습니다.(예제 3.4와 3.5를 보세요)</p>
+<p><strong>정보들을 결합하기</strong></p>
+<p>만약 $\theta|${Y=y} $\sim beta(a+y, b+n-y)$라면</p>
+<p>$E[\theta|y] = \frac{a + y}{a + b + n}$, mode[$\theta|y$] = $\frac{a + y - 1}{a + b + n - 2}$, Var[$\theta|y$] = $\frac{E[\theta|y]E[1-\theta|y]}{a + b + n + 1}$</p>
+<p>입니다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#f92672">as</span> plt
+<span style="color:#f92672">%</span>matplotlib inline
+plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">12</span>,<span style="color:#ae81ff">10</span>))
+<span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#f92672">from</span> scipy.stats <span style="color:#f92672">import</span> beta
+
+<span style="color:#75715e"># Panel 1</span>
+
+ax1 <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplot(<span style="color:#ae81ff">221</span>)
+
+x1 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">0.01</span>)
+
+y0 <span style="color:#f92672">=</span> beta<span style="color:#f92672">.</span>pdf(x1, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>) <span style="color:#75715e"># beta(1,1) prior distribution</span>
+
+y1 <span style="color:#f92672">=</span> beta<span style="color:#f92672">.</span>pdf(x1, <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#75715e">#p(theta|y) = beta(a+y, b + n - y)</span>
+
+ax1<span style="color:#f92672">.</span>plot(x1, y0,  color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;grey&#39;</span>, label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;prior&#39;</span>) <span style="color:#75715e"># prior distiribution</span>
+ax1<span style="color:#f92672">.</span>plot(x1, y1, label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;posterior&#39;</span>) <span style="color:#75715e"># posterior distribution</span>
+
+plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;beta(1,1) prior distiribution &amp; data with n = 5 ,$\Sigma y_i = 1$&#39;</span>)
+plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$p(\theta|y)$&#39;</span>)
+plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#39;y&#39;</span>)
+plt<span style="color:#f92672">.</span>ylim(<span style="color:#f92672">-</span><span style="color:#ae81ff">0.01</span>,<span style="color:#ae81ff">3</span>)
+plt<span style="color:#f92672">.</span>legend()
+
+
+<span style="color:#75715e"># Panel 2</span>
+
+ax2 <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplot(<span style="color:#ae81ff">222</span>)
+
+x1 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">0.01</span>)
+
+y0 <span style="color:#f92672">=</span> beta<span style="color:#f92672">.</span>pdf(x1, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">2</span>) <span style="color:#75715e"># beta(1,1) prior distribution</span>
+
+y1 <span style="color:#f92672">=</span> beta<span style="color:#f92672">.</span>pdf(x1, <span style="color:#ae81ff">3</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#75715e">#p(theta|y) = beta(a+y, b + n - y)</span>
+
+ax2<span style="color:#f92672">.</span>plot(x1, y0,  color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;grey&#39;</span>, label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;prior&#39;</span>) <span style="color:#75715e"># prior distiribution</span>
+ax2<span style="color:#f92672">.</span>plot(x1, y1, label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;posterior&#39;</span>) <span style="color:#75715e"># posterior distribution</span>
+
+plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;beta(3,2) prior distiribution &amp; data with n = 5 ,$\Sigma y_i = 1$&#39;</span>)
+plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$p(\theta|y)$&#39;</span>)
+plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#39;y&#39;</span>)
+plt<span style="color:#f92672">.</span>ylim(<span style="color:#f92672">-</span><span style="color:#ae81ff">0.01</span>,<span style="color:#ae81ff">3</span>)
+plt<span style="color:#f92672">.</span>legend()
+
+<span style="color:#75715e"># Panel 3</span>
+
+ax3 <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplot(<span style="color:#ae81ff">223</span>)
+
+x1 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">0.01</span>)
+
+y0 <span style="color:#f92672">=</span> beta<span style="color:#f92672">.</span>pdf(x1, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>) <span style="color:#75715e"># beta(1,1) prior distribution</span>
+
+y1 <span style="color:#f92672">=</span> beta<span style="color:#f92672">.</span>pdf(x1, <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">100</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">20</span>) <span style="color:#75715e">#p(theta|y) = beta(a+y, b + n - y)</span>
+
+ax3<span style="color:#f92672">.</span>plot(x1, y0,  color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;grey&#39;</span>, label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;prior&#39;</span>) <span style="color:#75715e"># prior distiribution</span>
+ax3<span style="color:#f92672">.</span>plot(x1, y1, label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;posterior&#39;</span>) <span style="color:#75715e"># posterior distribution</span>
+
+plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;beta(1,1) prior distiribution &amp; data with n = 100 ,$\Sigma y_i = 20$&#39;</span>)
+plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$p(\theta|y)$&#39;</span>)
+plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#39;y&#39;</span>)
+plt<span style="color:#f92672">.</span>ylim(<span style="color:#f92672">-</span><span style="color:#ae81ff">0.5</span>,<span style="color:#ae81ff">10.5</span>)
+plt<span style="color:#f92672">.</span>legend()
+
+<span style="color:#75715e"># Panel 4</span>
+
+ax4 <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplot(<span style="color:#ae81ff">224</span>)
+
+x1 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">0.01</span>)
+
+y0 <span style="color:#f92672">=</span> beta<span style="color:#f92672">.</span>pdf(x1, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">2</span>) <span style="color:#75715e"># beta(1,1) prior distribution</span>
+
+y1 <span style="color:#f92672">=</span> beta<span style="color:#f92672">.</span>pdf(x1, <span style="color:#ae81ff">3</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">100</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">20</span>) <span style="color:#75715e">#p(theta|y) = beta(a+y, b + n - y)</span>
+
+ax4<span style="color:#f92672">.</span>plot(x1, y0,  color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;grey&#39;</span>, label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;prior&#39;</span>) <span style="color:#75715e"># prior distiribution</span>
+ax4<span style="color:#f92672">.</span>plot(x1, y1, label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;posterior&#39;</span>) <span style="color:#75715e"># posterior distribution</span>
+
+plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;beta(3,2) prior distiribution &amp; data with n = 100 ,$\Sigma y_i = 20$&#39;</span>)
+plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$p(\theta|y)$&#39;</span>)
+plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#39;y&#39;</span>)
+plt<span style="color:#f92672">.</span>ylim(<span style="color:#f92672">-</span><span style="color:#ae81ff">0.5</span>,<span style="color:#ae81ff">10.5</span>)
+plt<span style="color:#f92672">.</span>legend()
+
+
+plt<span style="color:#f92672">.</span>show();
+</code></pre></div><p><img src="https://user-images.githubusercontent.com/57588650/110318035-56630100-8050-11eb-9c4d-3866aa1917a1.png" alt="output_63_0"></p>
+<p><strong>그림 3.4.</strong> 두 개의 다른 표본의 크기와 두 개의 다른 사전 분포를 가진 베타 사후 분포의 그래프들입니다. 왼쪽과 오른쪽을 비교해보면서 사전 분포가 주는 사후 분포로의 영향을 확인하고, 위 아래를 비교하면서 표본 크기의 사후 분포에 대한 영향을 확인해보세요</p>
+<p>사후 기댓값 $E[\theta|y]$는 다음과 같이 사전 분포와 데이터의 정보를 결합하여 쉽게 구할 수 있습니다.</p>
+<p>$$
+E[\theta|y] = \frac{a+y}{a+b+n}
+$$</p>
+<p>$$
+= \frac{a+b}{a+b+n}\frac{a}{a+b} + \frac{n}{a+b+n}\frac{y}{n}
+$$</p>
+<p>$$
+= \frac{a + b}{a + b + n} \times \text{prior expectation} + \frac{n}{a + b + n} \times \text{data average.}
+$$</p>
+<p>이것이 의미하는 바는 바로 사후 기댓값(사후 평균)이 사전 기댓값과 표본 평균의 각각 a+b와 n에 비례하는 가중 평균이라는 것입니다. 즉 a와 b를 &ldquo;사전 데이터&quot;라고 해석할 수 있다는 것이죠:</p>
+<p>$$
+a \approx \text{&ldquo;사전에 알려진 1의 갯수&rdquo;}
+$$</p>
+<p>$$
+b \approx \text{&ldquo;사전에 알려진 0의 갯수&rdquo;}
+$$</p>
+<p>$$
+a+b \approx \text{&ldquo;사전에 알려진 표본의 크기&rdquo;}
+$$</p>
+<p>한가지 더 알 수 있는 것은, 만약 n이 a+b보다 크다면 데이터의 평균이 사전 기댓값보다 사후 분포에 더 많은 정보를 준다는 것입니다. 만약 n이 a+b보다 상당히 크다면</p>
+<p>$$
+\frac{a+b}{a+b+n} \approx 0, \ \ E[\theta|y] \approx \frac{y}{n}, \ \ Var[\theta|y] \approx \frac{1}{n} \frac{y}{n} \bigg (1-\frac{y}{n} \bigg). \ \ \ \ (n \rightarrow \infty \text{라고 생각해보세요})
+$$</p>
+<p>이 되고, 이는 사전 분포가 사후 분포에 아무런 영향도 주지 못한다는 것을 의미합니다.</p>
+<p><strong>예측</strong></p>
+<p>베이지안 추론의 가장 중요한 특징은 새로운 관찰값을 반영한 예측 분포(predictive distribution)가 존재한다는 것입니다.
+다음과 같은 binary 데이터를 예로 들어봅시다.</p>
+<p>$$
+y_1, &hellip;, y_n = \text{n개의 binary 확률 변수}
+$$</p>
+<p>여기에 아직 관찰되지 않은 추가적인 데이터 $\tilde{Y} \in$ {0,1}이 같은 모집단으로부터 산출되었다고 합시다. 그렇다면 $\tilde{Y}$의 예측 분포(predictive distribution)은 다음과 같은 조건부 분포입니다.</p>
+<p>$$
+\tilde{Y} | Y_1 = y_1, &hellip;, Y_n = y_n
+$$</p>
+<p>이것이 조건부 i.i.d.인 binary 확률 변수라면 추가적인 데이터 $\tilde{Y}$가 1 또는 0의 값을 가질 확률을 $\tilde{Y}|\theta$와 $\theta$의 사후 분포를 통해 구할 수 있습니다.</p>
+<p>$$
+Pr(\tilde{Y} = 1|y_1, &hellip;, y_n) = \int Pr(\tilde{Y} = 1, \theta | y_1, &hellip;, y_n) d\theta \ \ (\text{by rule of marginal probability})
+$$</p>
+<p>$$
+= \int \underbrace{Pr(\tilde{Y} = 1 | \theta, y_1, &hellip;, y_n)}_{= \theta, \ \theta\text{가 1이 나올 확률이므로,} \theta \text{도 주어졌다면} \tilde{Y} \text{도 1이 나올 확률은} \theta \text{이다.}  } p(\theta|y_1, &hellip;, y_n) d\theta \ (\text{by rule of marginal probability})
+$$</p>
+<p>$$
+= \int \theta p(\theta|y_1, &hellip;, y_n) d\theta
+$$</p>
+<p>이것은 기댓값을 구하는 식과 같다. 따라서</p>
+<p>$$
+= E[\theta|y_1, &hellip;, y_n] = \frac{a + \sum^n_{i=1}y_i}{a + b + n}
+$$</p>
+<p>이고, 같은 방식으로 $\tilde{Y} = 0$일 확률은 다음과 같다.</p>
+<p>$$
+Pr(\tilde{Y} = 0|y_1, &hellip;, y_n) = 1 \ - \ E[\theta|y_1, &hellip;, y_n] = \frac{b + \sum^n_{i-1}(1-y_i)}{a+b+n}
+$$</p>
+<p>이것을 통해 배울 수 있는 예측 분포에 대한 두 가지 중요한 포인트는 다음과 같습니다.</p>
+<ol>
+<li>
+<p>예측 분포는 아직 알려지지 않은 값에는 의존하지 않습니다. 만약 의존한다면, 예측을 위해 이 분포를 사용할 수 없습니다.</p>
+</li>
+<li>
+<p>예측 분포는 관찰된 데이터에 의존합니다. 이 분포에서는 $\tilde{Y}$가 $Y_1, &hellip;, Y_n$에 독립이 아닙니다.(2.7 섹센을 다시 보세요) 왜나하면 $Y_1, &hellip;, Y_n$이 $\theta$에 대한 정보를 주고, 또 이것이 $\tilde{Y}$에 대한 정보를 주기 때문이죠. 만약 $\tilde{Y}$가 관찰된 데이터에 독립이라면 지금까지 관찰된 표본으로는 아직 추출되지 않은 모집단에 대해 아무것도 추론할 수 없습니다.</p>
+</li>
+</ol>
+<p><strong>예시</strong></p>
+<p>균등 사전 분포(또는 beta(1,1))는 사전 데이터가 하나의 1과 하나의 0을 가지고 있다는 정보를 가지고있다는 것과 동일합니다. 이 사전분포 하에서는 $Y = \Sigma^n_{i=1}Y_i$일 때</p>
+<p>$$
+Pr(\tilde{Y} = 1 | Y = y) = E[\theta|Y=y] = \frac{2}{2+n} \frac{1}{2} + \frac{n}{2+n}\frac{y}{n},
+$$</p>
+<p>$$
+mode(\theta|Y=y) = \frac{y}{n}
+$$</p>
+<p>입니다.</p>
+<p>왜 이 사후 기댓값과 사후 최빈값(mode)이 다른지 이해가시나요? 예를 들어 데이터가 모두 0인 경우($Y = \sum Y_i = 0$)는 mode($\theta|Y=0$) = 0이지만, $Pr(\tilde{Y} = 1| Y= 0) = \frac{1}{2+n}$입니다. 왜냐하면 사전 분포인 균등 사전 분포(또는 beta(1,1))가 0,1이 나올 확률이 같다(즉 각 1/2이다)는 정보를 포함하고 있기 때문입니다.</p>
+<h3 id="312-신뢰-영역confidence-regions">3.1.2 신뢰 영역(Confidence Regions)</h3>
+<p>파라미터의 실제 값이 들어있을만한 파리미터 공간의 영역을 찾기 위해, $Y=y$가 관측된 후</p>
+<p>$$
+Pr[l(y) &lt; \theta &lt; u(y)]
+$$</p>
+<p>가 큰 구간 $[l(y), u(y)]$를 구하고 싶습니다.</p>
+<p><strong>정의 5</strong>(베이지안 신뢰구간(Bayesian Coveraage))</p>
+<p>$Y=y$가 관측됐을 때, 구간 $[l(y), u(y)]$는 다음과 같은 경우에 $\theta$에 대해 95% 베이지안 신뢰구간을 가진다고 합니다.</p>
+<p>$$
+Pr(l(y) &lt; \theta &lt; u(y)|Y=y) = .95
+$$</p>
+<p>이 구간이 뜻하는 바는 &ldquo;데이터 $Y=y$를 관측한 후&rdquo; 파라미터 $\theta$의 참값이 어디에 위치할지에 대한 정보입니다. 프리퀀티스트들은 이와는 다르게 데이터가 관측되기 전에 그 구간이 참값을 커버할 확률이라고 말합니다.</p>
+<p><strong>정의 6</strong>(프리퀀티스트 신뢰구간(frequentist coverage))</p>
+<p>&ldquo;데이터를 수집하기 전&quot;에, <strong>랜덤</strong> 구간 $[l(y), u(y)]$는 다음과 같은 경우에 $\theta$에 대해 95% 프리퀀티스트 신뢰구간을 가진다고 합니다.</p>
+<p>$$
+Pr(l(y) &lt; \theta &lt; u(y)|\theta) = .95.
+$$</p>
+<p>하지만, 데이터를 관찰하기 전에 수행되는 프리퀀티스트의 신뢰구간은 데이터를 관찰한 이후에 다음과 같이 된다는 문제가 있습니다.</p>
+<p>$$
+Pr(l(y) &lt; \theta &lt; u(y)|\theta) = \begin{cases} 0 \ \ if \ \theta \notin [l(y), u(y)]; \newline 1 \ \ if \ \theta \in [l(y), u(y)]. \end{cases}
+$$</p>
+<p>즉 0 또는 1의 값 밖에 가지지 못한다는 점이죠. 그렇다고 해서 프리퀀티스트 신뢰구간이 쓸모 없는 것은 아닙니다. 예를 들어 각자 그들 자신의 신뢰구간을 형성하는 수많은 서로 관련 없는 실험을 수행한다고 가정합시다. 만약 각각의 구간이 95% 프리퀀티스트 신뢰구간을 가진다면, 95%의 확률로 그 구간이 올바른 파라미터 값을 포함한다고 예측할 수 있습니다.</p>
+<p>그렇다면 베이지안 신뢰구간과 프리퀀티스트 신뢰구간은 어떤 관계가 있을까요? Hartigan(1966)은 베이지안 신뢰구간이 추가적으로 다음과 같은 특성이 있다는 것을 보였습니다.</p>
+<p>$$
+Pr(l(Y) &lt; \theta &lt; u(Y)|\theta) = .95 + \epsilon_n \ \ (|\epsilon_n| &lt; \frac{a}{n}, a = \text{어떠한 상수})
+$$</p>
+<p>즉 베이지안 신뢰구간 역시 점근적으로(n이 커질 수록) 95% 프리퀀티스트 신뢰구간에 근사합니다. 즉 베이지안이든 베이지안이 아니든 점근적으로 같은 신뢰구간을 가지게 됩니다. 추가적인 베이지안과 베이지안이 아닌 방법론으로 만들어진 신뢰구간 사이의 비슷함은 Severini(1991), Sweeting(2001)의 논문을 참고해봅시다.</p>
+<p><strong>분위수 기반 구간(Quantile-based interval)</strong></p>
+<p>신뢰구간을 구하는 가장 쉬운 방법은 사후 분위수를 사용하는 것입니다.</p>
+<p>$100 \times (1-\alpha)$% 분위수 기반 신뢰 구간을 구하는 방법은 다음을 만족하는 $\theta_{\alpha/2} &lt; \theta_{1-\alpha/2}$를 구하는 것입니다.</p>
+<ol>
+<li>$Pr(\theta &lt; \theta_{\alpha/2} | Y = y) = \alpha/2;$</li>
+<li>$Pr(\theta &gt; \theta_{1 - \alpha/2}|Y=y) = \alpha/2;$</li>
+</ol>
+<p>여기서 구할 수 있는 $\theta_{\alpha/2}, \theta_{1-\alpha/2}$는 각각 $\theta$의 $\alpha, 1-\alpha/2$ 사후 분위수입니다. 이들은 또한 다음을 만족합니다.</p>
+<p>$$
+Pr(\theta \in [\theta_{\alpha/2}, \theta_{1-\alpha/2}]|Y=y) = 1 - Pr(\theta \notin [\theta_{\alpha/2}, \theta_{1- \alpha/2}]|Y=y)
+$$</p>
+<p>$$
+= 1 - [\underbrace{Pr(\theta &lt; \theta_{\alpha/2} | Y=y)}_{\alpha/2} + \underbrace{Pr(\theta &gt; \theta_{1-\alpha/2}|Y=y)}_{\alpha/2}]
+$$</p>
+<p>$$
+= 1- \alpha
+$$</p>
+<p><strong>예시 : 이항 샘플과 균등 사전 분포</strong></p>
+<p>n = 10의 이진 확률 변수에서 조건부 독립인 표본 추출을 시행해 2번의 1이 나왔다(Y = $\sum y_i$= 2)고 가정합시다. 지금까지 배운 방식으로 사후 분포를 구하면 다음과 같습니다.</p>
+<p>$$
+\theta|Y=y \ \sim \ \text{beta}( 1 + 2, 1 + 8 )
+$$</p>
+<p>여기에서 95% 베이지안 신뢰구간을 구한다고 하면, 이 베타 분포의 .025와 .975 분위수를 통해 구할 수 있을 것입니다. 이 분위수들은 각각 0.06, 0.52이고, 즉 $\theta \in [0.06, 0.52]$일 사후 확률은 95%입니다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> scipy.stats <span style="color:#f92672">import</span> beta
+
+<span style="color:#75715e"># prior</span>
+a <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+b <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+
+<span style="color:#75715e"># data</span>
+
+n <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>
+y <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+
+<span style="color:#75715e"># posterior quantile</span>
+
+beta<span style="color:#f92672">.</span>ppf([<span style="color:#ae81ff">0.025</span>, <span style="color:#ae81ff">0.975</span>], a <span style="color:#f92672">+</span> y, b <span style="color:#f92672">+</span> n <span style="color:#f92672">-</span> y)
+</code></pre></div><pre><code>array([0.06021773, 0.51775585])
+</code></pre>
+<h3 id="최고-사후-밀도highest-posterior-density-hpd-구간">최고 사후 밀도(Highest Posterior Density, HPD) 구간</h3>
+<p><strong>그림 3.5</strong>는 이전 예시에서의 사후 분포와 $\theta$에 대한 95% 신뢰구간을 보여줍니다. 여기에서 주목할 것은 신뢰구간 밖에 신뢰구간 안에 있는 지점보다 높은 확률(밀도)를 가지는 곳이 있다는 것입니다. 이런 곳이 없도록 더 제한된 형태의 구간이 바로 HPD 구간입니다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#f92672">as</span> plt
+<span style="color:#f92672">%</span>matplotlib inline
+plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">12</span>,<span style="color:#ae81ff">6</span>))
+<span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#f92672">from</span> scipy.stats <span style="color:#f92672">import</span> beta
+
+<span style="color:#75715e"># Posterior Distribution</span>
+
+x1 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">0.01</span>)
+posterior <span style="color:#f92672">=</span> beta<span style="color:#f92672">.</span>pdf(x1, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">9</span>)
+
+plt<span style="color:#f92672">.</span>plot(x1, posterior)
+plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$p(\theta|y)$&#39;</span>)
+plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$\theta$&#39;</span>)
+
+<span style="color:#75715e"># quantile based confidence interval</span>
+
+q1, q2 <span style="color:#f92672">=</span> beta<span style="color:#f92672">.</span>ppf([<span style="color:#ae81ff">0.025</span>, <span style="color:#ae81ff">0.975</span>], <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">9</span>)
+
+plt<span style="color:#f92672">.</span>axvline(q1, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;grey&#39;</span>)
+plt<span style="color:#f92672">.</span>axvline(q2, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;grey&#39;</span>)
+
+
+<span style="color:#75715e"># 신뢰구간 밖에 신뢰구간 안에 있는 지점보다 높은 확률(밀도)를 가지는 곳의 예시</span>
+
+<span style="color:#75715e">## 신뢰구간 밖에 있는 점</span>
+x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.055</span>
+y <span style="color:#f92672">=</span> beta<span style="color:#f92672">.</span>pdf(x, <span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">9</span>)
+
+plt<span style="color:#f92672">.</span>scatter(x,y, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;red&#39;</span>)
+
+<span style="color:#75715e">## 신뢰구간 안에 있는 점</span>
+x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>
+y <span style="color:#f92672">=</span> beta<span style="color:#f92672">.</span>pdf(x,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">9</span>)
+
+plt<span style="color:#f92672">.</span>scatter(x,y,color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;green&#39;</span>)
+
+plt<span style="color:#f92672">.</span>show()
+</code></pre></div><p><img src="https://user-images.githubusercontent.com/57588650/110318038-56fb9780-8050-11eb-9d29-bc4d29548fc4.png" alt="output_88_0"></p>
+<p><strong>그림 3.5.</strong> 베타 사후 분포와 수직선으로 표현된 95% 신뢰구간입니다. 여기서 볼 수 있듯, 신뢰구간 밖에 있는 빨간 점의 확률이 신뢰구간 안에 있는 초록 점보다 높은 곳에 있습니다. 이런 경우를 제한한 신뢰구간이 바로 HPB 영역입니다.</p>
+<p><strong>정의 7(HPD 영역)</strong></p>
+<p>파라미터 공간의 부분집합 $s(y) \subset \Theta$을 포함하는 $100 \times (1-\alpha)$% HPD 영역은 다음을 만족합니다.</p>
+<ol>
+<li>
+<p>$Pr(\theta \in s(y) | Y = y) = 1 - \alpha$</p>
+</li>
+<li>
+<p>만약 $\theta_{\alpha} \in s(y)$이고, $\theta_b \notin s(y)$라면, $p(\theta_a | Y= y) &gt; p(\theta_b|Y=y)$이다. 즉, 신뢰구간 안에 포함된 확률(밀도)은 포함되지 않은 확률(밀도)보다 항상 큽니다.</p>
+</li>
+</ol>
+<p>제약에 따라 HPD 영역 안에 있는 포인트들은 항상 영역 밖에 있는 포인트들보다 높은 확률을 가집니다. 그러나 사후 밀도 함수가 multimodal(두 개의 꼭대기가 있는)이라면, HPD 영역은 구간으로 표현되지 않을 것입니다. <strong>그림 3.6.</strong> 에 HPD를 구하는 기본적인 개념이 담겨있습니다.</p>
+<ol>
+<li>
+<p>수평선을 꼭대기에서 부터 점차 내려가면서, 그 아래의 영역이 $(1-\alpha)$가 될 때 멈추고</p>
+</li>
+<li>
+<p>해당하는 $\theta$값들을 구합니다.</p>
+</li>
+</ol>
+<p>이렇게 하면 모든 신뢰 구간 안에서 확률이 수평선보다 높게 됩니다. 예를 들어 위의 이항 분포 예시에서 HPD 영역은 [0.04, 0.048]입니다. 이것은 분위수 기반 구간보다 더 좁지만(또는 더 정확하지만) 둘 모두 95%의 사후 확률을 포함합니다.</p>
+<p><img src="https://user-images.githubusercontent.com/57588650/110317294-4991dd80-804f-11eb-9961-178d0a52275f.jpeg" alt="IMG_0FA9D025221B-1"></p>
+<p><strong>그림. 3.6.</strong> 확률에 따라 달라지는 HPD를 보여주는 그래프입니다. 점선으로 표현된 것은 95% 분위수 기반 구간입니다.</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/bayesian/" rel="tag">Bayesian</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">Python</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<div class="authorbox__header">
+		<span class="authorbox__name"></span>
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/2_belif_probability_and_exchangeability/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;</span>
+			<p class="pager__title">A First Course in Bayesian Statistical Methods Chapter 2. Belif, Probability and Exchangeability</p>
+		</a>
+	</div>
+</nav>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2021 Tai Hwan Oh.
+			<span class="footer__copyright-credits"></span>
+		</div>
+	</div>
+</footer>
+
+
+	</div>
+<script async defer src="/js/menu.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async>
+MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+           extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    }, "HTML-CSS": { fonts: ["TeX"], linebreaks: { automatic: true } }
+    });
+    MathJax.Hub.Queue(function() {
+      
+      
+      
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i = 0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  
+    MathJax.Hub.Config({
+    
+    TeX: { equationNumbers: { autoNumber: "AMS" } }
+    });
+</script>
+
+</body>
+</html>

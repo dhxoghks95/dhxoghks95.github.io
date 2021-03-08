@@ -6,7 +6,20 @@
     <description>Recent content in Posts on Oh Data Science</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Tue, 02 Mar 2021 20:09:32 +0900</lastBuildDate><atom:link href="http://example.org/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 08 Mar 2021 20:50:13 +0900</lastBuildDate><atom:link href="http://example.org/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A First Course in Bayesian Statistical Methods Chapter 3 . One parameter model</title>
+      <link>http://example.org/posts/3_one_parameter_model_1_binomial_model/</link>
+      <pubDate>Mon, 08 Mar 2021 20:50:13 +0900</pubDate>
+      
+      <guid>http://example.org/posts/3_one_parameter_model_1_binomial_model/</guid>
+      <description>A First Course in Bayesian Statistical Methods 3. 파라미터가 하나인 모델(One-parameter models) One parameter model
+하나의 미지의 파라미터에 의해 결정되는 표본 분포(sampling distribution)
+이번 챕터에서 다룰 분포의 종류
+ 이항 모델(Binomial model) 포아송 모델(Poisson model)  이번 챕터에서는 다음과 같은 세 가지 기본적인 베이지안 데이터 분석을 배워볼 것입니다.
+ 켤레 사전 분포(Conjugate Prior Distribution) 사후 예측 분포(Posterior Predictive Distribution) 신뢰 영역(Confidence Region : 신뢰구간의 다차원 버전)  3.1 이항 모델(The binomial model) 행복 데이터 대상 : 65세 이상 여성 129명(exchangeable)</description>
+    </item>
+    
     <item>
       <title>A First Course in Bayesian Statistical Methods Chapter 2. Belif, Probability and Exchangeability</title>
       <link>http://example.org/posts/2_belif_probability_and_exchangeability/</link>
