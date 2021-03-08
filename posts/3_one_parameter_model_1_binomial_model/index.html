@@ -69,7 +69,7 @@
         <li><a href="#311-교환-가능한-이항binary-데이터-추론">3.1.1 교환 가능한 이항(binary) 데이터 추론</a></li>
         <li><a href="#uniform-사전-분포-하에서의-사후분포-추론"><em>Uniform 사전 분포 하에서의 사후분포 추론</em></a></li>
         <li><a href="#이항-분포"><em>이항 분포</em></a></li>
-        <li><a href="#정의-4-켤레conjugate">정의 4 (켤레(Conjugate))</a></li>
+        <li><a href="#켤레성conjugacy">켤레성(Conjugacy)</a></li>
         <li><a href="#312-신뢰-영역confidence-regions">3.1.2 신뢰 영역(Confidence Regions)</a></li>
         <li><a href="#최고-사후-밀도highest-posterior-density-hpd-구간">최고 사후 밀도(Highest Posterior Density, HPD) 구간</a></li>
       </ul>
@@ -110,7 +110,10 @@ $$</p>
 p(y_1, &hellip;., y_{129}) | \theta) = p(y_1|\theta) \ p(y_2|\theta) \ &hellip; \ p(y_{129}|\theta)
 $$</p>
 <p>$$
-= \prod^{129}<em>{i=1} \theta^{y_i} (1 - \theta)^{1 - y_i} = \theta^{\sum^{129}</em>{i=1}y_i}(1-\theta)^{129 - \sum^{129}_{i=1}y_i}
+= \prod^{129}_{i=1} \theta^{y_i} (1 - \theta)^{1 - y_i}
+$$</p>
+<p>$$
+= \theta^{\sum^{129}<em>{i=1}y_i}(1-\theta)^{129 - \sum^{129}</em>{i=1}y_i}
 $$</p>
 <p>이제 필요한 것은 사전 분포입니다.</p>
 <h3 id="균등-사전-분포uniform-prior-distribution">균등 사전 분포(Uniform prior distribution)</h3>
@@ -405,9 +408,9 @@ $$</p>
 <p>이 연산에서 가장 중요한 것은 마지막 두 라인입니다. 밑에서 두 번째 라인에서 볼 수 있듯이 $p(\theta|y)$가 $\theta$에 대한 함수이기 때문에 c(n,y,a,b)는 상수로 취급되고, 이것은 $p(\theta|y)$가 $\theta^{a + y - 1} (1-\theta)^{b+n-y-1}$와 비례한다는 것을 의미합니다. 즉 scipy.stats.beta.pdf($\theta, a+y, b+n-y$)와 같은 모양이라는 뜻이죠.</p>
 <p>또한 $p(\theta|y)$와 scipy.stats.beta.pdf($\theta, a+y, b+n-y$)가 모두 적분하면 1이므로 스케일 또한 같습니다. 즉 사실은 $p(\theta|y)$와 scipy.stats.beta.pdf($\theta, a+y, b+n-y$)는 같은 함수인 것입니다.</p>
 <p>앞으로 계속해서 이를 활용해 우리는 사후 분포가 어떠한 알려진 확률 밀도 함수와 비례하고, 따라서 그 확률 밀도 함수와 반드시 같다는 것을 찾아내볼 것입니다.</p>
-<p><strong>켤레성(Conjugacy)</strong></p>
+<h3 id="켤레성conjugacy">켤레성(Conjugacy)</h3>
 <p>지금까지 배운 &ldquo;베타 사전 분포와 이항 표본 모델이 결합되어 베타 사후 분포를 만드는 것&quot;을 베타 사전 분포의 클래스가 이항 표본 모델의 &ldquo;켤레(congutate)&ldquo;라고 부릅니다.</p>
-<h3 id="정의-4-켤레conjugate">정의 4 (켤레(Conjugate))</h3>
+<p><strong>정의 4 (켤레(Conjugate))</strong></p>
 <p>만약 다음이 성립한다면, $\theta$의 사전 분포의 클래스 $\mathcal{P}$를 표본 모델 $p(y|\theta)$의 &ldquo;켤레(conjugate)&ldquo;라고 부릅니다.</p>
 <p>$$
 p(\theta) \in \mathcal{P} \Rightarrow p(\theta|y) \in \mathcal{P}
