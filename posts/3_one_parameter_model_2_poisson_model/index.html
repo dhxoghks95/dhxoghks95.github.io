@@ -254,7 +254,7 @@ $$</p>
 </ul>
 <p>$n$이 크다면, 데이터로 부터의 정보가 사전 정보를 압도합니다</p>
 <p>$$
-if n &raquo; b \Rightarrow E[\theta|y_1, &hellip;, y_n] \approx \bar{y},
+if \ \ \ n &raquo; b \Rightarrow E[\theta|y_1, &hellip;, y_n] \approx \bar{y},
 Var[\theta|y_1, &hellip;, y_n] \approx \bar{y}/n
 $$</p>
 <p>($n \rightarrow \infty$ 라고 생각해보세요)</p>
@@ -316,8 +316,8 @@ Y_{1,2}, &hellip; , Y_{n_2, 2} | \theta_1 \ \sim \ \text{i.i.d.} \ Poisson(\thet
 $$</p>
 <p>이 데이터에 포아송 모델을 쓰는 것이 적절한지는 다음 챕터에서 보도록 하겠습니다.</p>
 <p>데이터의 경험적인 분포는 <strong>그림. 3.9</strong>에 나와있고, 그룹합과 평균은 다음과 같습니다.</p>
-<p>학사 학위 미만 : $n_1 = 111, \sum^{n_1}<em>{i=1} Y</em>{i,1} = 217, \bar{Y}_1 = 1.95$</p>
-<p>학사 학위 이상 : $n_2 = 44, \sum^{n_2}<em>{i=1} Y</em>{i,2} = 66, \bar{Y}_2 = 1.50$</p>
+<p>학사 학위 미만 : $n_1 = 111, \sum_{i=1}^{n_1} Y_{i,1} = 217, \bar{Y}_1 = 1.95$</p>
+<p>학사 학위 이상 : $n_2 = 44, \sum_{i=1}^{n_2} Y_{i,2} = 66, \bar{Y}_2 = 1.50$</p>
 <p>{$\theta_1, \theta_2$} $\sim$ i.i.d. gamma(a=2, b=1)일 때, 다음과 같은 사후 분포를 가집니다.</p>
 <p>$\theta_1|$ {$n_1 = 111, \Sigma Y_{i,1} = 217$} $\sim$ gamma(2+217, 1+111) = gamma(219, 112)</p>
 <p>$\theta_2|$ {$n_2 = 44, \Sigma Y_{i,1} = 66$} $\sim$ gamma(2+66, 1+44) = gamma(68, 45)</p>
@@ -461,9 +461,7 @@ $$</p>
 <p>$$
 p(\phi|y_1, &hellip;, y_n) \propto p(\phi) p(y_1, &hellip;, y_n | \phi)
 $$</p>
-<p>$$
-= \underbrace{p(\phi)}<em>{\kappa(n_0, t_0) c(\phi)^{n_0} e^{n_0 t_0 \phi}} \prod</em>{i=1}^n \underbrace{p(y_i|\theta)}_{h(y)c(\phi)e^{\phi t(y)}}
-$$</p>
+<p><img src="https://user-images.githubusercontent.com/57588650/110475813-aa3f1a00-8124-11eb-9b0a-e6261449f803.png" alt="output"></p>
 <p>이 때, $\kappa(n_0, t_0), h(y)$가 상수항이므로</p>
 <p>$$
 \propto \underbrace{\prod_{i=1}^n c(\phi) e^{\phi t(y_i)}}_{c(\phi)^n e^{\phi \sum_{i=1}^n t(y_i)}} \times c(\phi)^{n_0} e^{n_0 t_0 \phi}
