@@ -260,13 +260,19 @@ $$</p>
 <p>($n \rightarrow \infty$ 라고 생각해보세요)</p>
 <p>추가적인 데이터가 어떤 값을 가질지에 대한 예측은 사후 예측 분포를 통해 구할 수 있습니다.</p>
 <p>$$
-\begin{align}
-p(\tilde{y}|y_1, &hellip;, y_n) = \int^{\infty}<em>0 p(\tilde{y}|\theta, y_1, &hellip;, y_n)p(\theta|y_1, &hellip;, y_n) d\theta \ \ \ (\text{by 주변 확률의 법칙})\newline
-= \int p(\tilde{y}|\theta)p(\theta|y_1, &hellip;, y_n) d\theta \ (\theta \text{가 주어졌을 때} \ y_1, &hellip;, y_n \ \text{는 조건부 독립})\newline
-= \int dpois(\tilde{y}, \theta)dgamma(\theta, a+\Sigma y_i, b+n) d\theta \newline
-= \int \bigg( \frac{1}{\tilde{y}!} \theta^{\tilde{y}} e^{-\theta} \bigg) \bigg( \frac{(b+n)^{a + \Sigma y_i}}{\Gamma(a+\Sigma y_i)} \theta^{a + \Sigma y_i -1} e^{-(b+n)\theta} \bigg) d\theta \newline
-= \frac{(b+n)^{a + \Sigma y_i}}{\Gamma(\tilde{y} + 1) \Gamma(a+\Sigma y_i)} \int^{\infty}</em>{0} \theta^{a + \Sigma y_i + \tilde{y} - 1} e^{-(b+n+1)\theta} d\theta.
-\end{align}
+p(\tilde{y}|y_1, &hellip;, y_n) = \int^{\infty}_0 p(\tilde{y}|\theta, y_1, &hellip;, y_n)p(\theta|y_1, &hellip;, y_n) d\theta \ \ \ (\text{by 주변 확률의 법칙})
+$$</p>
+<p>$$
+= \int p(\tilde{y}|\theta)p(\theta|y_1, &hellip;, y_n) d\theta \ (\theta \text{가 주어졌을 때} \ y_1, &hellip;, y_n \ \text{는 조건부 독립})
+$$</p>
+<p>$$
+= \int dpois(\tilde{y}, \theta)dgamma(\theta, a+\Sigma y_i, b+n) d\theta
+$$</p>
+<p>$$
+= \int \bigg( \frac{1}{\tilde{y}!} \theta^{\tilde{y}} e^{-\theta} \bigg) \bigg( \frac{(b+n)^{a + \Sigma y_i}}{\Gamma(a+\Sigma y_i)} \theta^{a + \Sigma y_i -1} e^{-(b+n)\theta} \bigg) d\theta
+$$</p>
+<p>$$
+= \frac{(b+n)^{a + \Sigma y_i}}{\Gamma(\tilde{y} + 1) \Gamma(a+\Sigma y_i)} \int^{\infty}_{0} \theta^{a + \Sigma y_i + \tilde{y} - 1} e^{-(b+n+1)\theta} d\theta.
 $$</p>
 <p>맨 뒤의 적분은 복잡해보이지만, 베타 사후 분포 때와 마찬가지로 감마 pdf를 적분한 값이 1이라는 사실을 사용하면 됩니다.</p>
 <p>$$
@@ -453,12 +459,12 @@ p(y|\phi) = h(y)c(\phi)e^{\phi t(y)}, \ \ \text{이 때} \ \ \phi \text{는 미�
 $$</p>
 <p>Diaconis와 Ylvisaker (1979)는 지수분포족에 모두 먹히는, 특히 사전 분포가 $p(\phi|n_0, t_0) = \kappa(n_0, t_0) c(\phi)^{n_0} e^{n_0 t_0 \phi}$ 형태에 일반적으로 적용되는 켤레 사전 분포에 대해 연구했습니다. 이러한 사전 분포와 $Y_1, &hellip;, Y_n \sim \text{i.i.d.} \ p(y|\phi)$으로 부터 뽑힌 정보를 결합하면 다음과 같은 사후 분포를 얻을 수 있게 됩니다.</p>
 <p>$$
-\begin{align}
-p(\phi|y_1, &hellip;, y_n) \propto p(\phi) p(y_1, &hellip;, y_n | \phi) \newline
+p(\phi|y_1, &hellip;, y_n) \propto p(\phi) p(y_1, &hellip;, y_n | \phi)
+$$</p>
+<p>$$
 = \underbrace{p(\phi)}<em>{\kappa(n_0, t_0) c(\phi)^{n_0} e^{n_0 t_0 \phi}} \prod</em>{i=1}^n \underbrace{p(y_i|\theta)}_{h(y)c(\phi)e^{\phi t(y)}}
-\end{align}
-$$
-이 때, $\kappa(n_0, t_0), h(y)$가 상수항이므로</p>
+$$</p>
+<p>이 때, $\kappa(n_0, t_0), h(y)$가 상수항이므로</p>
 <p>$$
 \propto \underbrace{\prod_{i=1}^n c(\phi) e^{\phi t(y_i)}}_{c(\phi)^n e^{\phi \sum_{i=1}^n t(y_i)}} \times c(\phi)^{n_0} e^{n_0 t_0 \phi}
 $$</p>
@@ -478,7 +484,9 @@ $$</p>
 = E[-c'(\phi) / c(\phi)] = t_0
 $$</p>
 <p>이때문에 $t_0$은 $t(Y)$의 사전 기댓값을 나타냅니다.</p>
-<p>파라미터 $n_0$는 그 사전 분포가 얼마나 많은 정보를 포함하고 있는지 포여주는 측도입니다. 이 측도를 계량화하는 방법은 많지만, 가장 쉬운 것은 $\phi$에 대한 함수로서 $p(\phi|n_0, t_0)$이 $n_0$개의 &ldquo;사전 관찰값&rdquo; $\tilde{y_1}, &hellip;, \tilde{y}_{n_0}$으로부터 온 우도(likelihood)인 $p(\tilde{y}<em>1, &hellip;, \tilde{y}</em>{n_0}|\phi)$과 같은 모양을 가진다는 것을 사용하는 것입니다. 이 때 $\Sigma t(\tilde{y}_i)/n_0 = t_0$입니다. 이것을 사용해서, 사전 분포 $p(\phi|n_0, t_0)$이 모집단으로 부터 독립적으로 추출한 $n_0$개의 샘플과 같은 양의 정보를 가지고 있다는 것을 알 수 있게됩니다.</p>
+<p>파라미터 $n_0$는 그 사전 분포가 얼마나 많은 정보를 포함하고 있는지 포여주는 측도입니다.</p>
+<p>이 측도를 계량화하는 방법은 많지만, 가장 쉬운 것은 $\phi$에 대한 함수로서 $p(\phi|n_0, t_0)$이 $n_0$개의 &ldquo;사전 관찰값&rdquo; $\tilde{y_1}, &hellip;, \tilde{y}_{n_0}$으로부터 온 우도(likelihood)인 $p(\tilde{y}<em>1, &hellip;, \tilde{y}</em>{n_0}|\phi)$과 같은 모양을 가진다는 것을 사용하는 것입니다.</p>
+<p>이 때 $\Sigma t(\tilde{y}_i)/n_0 = t_0$입니다. 이것을 사용해서, 사전 분포 $p(\phi|n_0, t_0)$이 모집단으로 부터 독립적으로 추출한 $n_0$개의 샘플과 같은 양의 정보를 가지고 있다는 것을 알 수 있게됩니다.</p>
 <p><strong>예시 : 이항 모델</strong></p>
 <p>이항 모델은 다음과 같은 방법으로 지수분포꼴의 모양으로 변환시킬 수 있습니다.</p>
 <p>\begin{align}
@@ -526,7 +534,7 @@ p(y|\theta) = \theta^y(1-\theta)^{1-y} \newline
 	<div class="pager__item pager__item--prev">
 		<a class="pager__link" href="/posts/3_one_parameter_model_1_binomial_model/" rel="prev">
 			<span class="pager__subtitle">«&thinsp;</span>
-			<p class="pager__title">A First Course in Bayesian Statistical Methods Chapter 3 . One parameter model</p>
+			<p class="pager__title">A First Course in Bayesian Statistical Methods Chapter 3 . One parameter model, 1. Binomial Model</p>
 		</a>
 	</div>
 </nav>
