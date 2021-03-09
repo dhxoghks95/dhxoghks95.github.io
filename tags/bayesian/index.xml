@@ -6,7 +6,19 @@
     <description>Recent content in Bayesian on Oh Data Science</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Mon, 08 Mar 2021 20:50:13 +0900</lastBuildDate><atom:link href="http://example.org/tags/bayesian/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 09 Mar 2021 21:57:27 +0900</lastBuildDate><atom:link href="http://example.org/tags/bayesian/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A First Course in Bayesian Statistical Methods Chapter 3 . One parameter model, 2. Poisson Model &amp; Exponential Families and Conjugate Priors</title>
+      <link>http://example.org/posts/3_one_parameter_model_2_poisson_model/</link>
+      <pubDate>Tue, 09 Mar 2021 21:57:27 +0900</pubDate>
+      
+      <guid>http://example.org/posts/3_one_parameter_model_2_poisson_model/</guid>
+      <description>A First Course in Bayesian Statistical Methods 3. 파라미터가 하나인 모델(One-parameter models) 3.2 포아송 모델(Poisson model) 어떤 사람의 자식의 수, 친구의 수 같은 숫자를 세는데 있어 가장 간단한 확률 모델은 포아송 모델입니다. 그리고 이 때의 표본 공간은 $\mathcal{Y}$ = {0,1,2,&amp;hellip;} 입니다.
+포아송 분포 다음과 같은 분포를 평균이 $\theta$인 포아송 분포라고 합니다.
+$$ Pr(Y=y|\theta) = \text{scipy.stats.poisson.pmf(y},\theta) = \frac{\theta^y e^{-\theta}}{y!} \ \ for \ y \in (0,1,2,&amp;hellip;). $$
+그리고 이러한 확률 변수는</description>
+    </item>
+    
     <item>
       <title>A First Course in Bayesian Statistical Methods Chapter 3 . One parameter model</title>
       <link>http://example.org/posts/3_one_parameter_model_1_binomial_model/</link>

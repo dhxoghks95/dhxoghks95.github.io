@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>A First Course in Bayesian Statistical Methods Chapter 3 . One parameter model, 2. Poisson Model &amp; Exponential Families and Conjugate Priors - Oh Data Science</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="A First Course in Bayesian Statistical Methods Chapter 3 . One parameter model, 2. Poisson Model &amp; Exponential Families and Conjugate Priors" />
+<meta property="og:description" content="A First Course in Bayesian Statistical Methods 3. 파라미터가 하나인 모델(One-parameter models) 3.2 포아송 모델(Poisson model) 어떤 사람의 자식의 수, 친구의 수 같은 숫자를 세는데 있어 가장 간단한 확률 모델은 포아송 모델입니다. 그리고 이 때의 표본 공간은 $\mathcal{Y}$ = {0,1,2,&hellip;} 입니다.
+포아송 분포 다음과 같은 분포를 평균이 $\theta$인 포아송 분포라고 합니다.
+$$ Pr(Y=y|\theta) = \text{scipy.stats.poisson.pmf(y},\theta) = \frac{\theta^y e^{-\theta}}{y!} \ \ for \ y \in (0,1,2,&hellip;). $$
+그리고 이러한 확률 변수는" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/posts/3_one_parameter_model_2_poisson_model/" />
+<meta property="article:published_time" content="2021-03-09T21:57:27+09:00" />
+<meta property="article:modified_time" content="2021-03-09T21:57:27+09:00" />
+
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo">
+		<a class="logo__link" href="/" title="Oh Data Science" rel="home">
+			<div class="logo__item logo__text">
+					<div class="logo__title">Oh Data Science</div>
+					
+				</div>
+		</a>
+	</div>
+		<div class="divider"></div>
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">A First Course in Bayesian Statistical Methods Chapter 3 . One parameter model, 2. Poisson Model &amp; Exponential Families and Conjugate Priors</h1>
+			
+		</header>
+<div class="post__toc toc">
+	<div class="toc__title"></div>
+	<div class="toc__menu">
+		<nav id="TableOfContents">
+  <ul>
+    <li><a href="#3-파라미터가-하나인-모델one-parameter-models">3. 파라미터가 하나인 모델(One-parameter models)</a></li>
+    <li><a href="#32-포아송-모델poisson-model">3.2 포아송 모델(Poisson model)</a>
+      <ul>
+        <li><a href="#포아송-분포">포아송 분포</a></li>
+        <li><a href="#321-사후-분포-추론">3.2.1 사후 분포 추론</a></li>
+        <li><a href="#켤레-사전-분포conjugate-prior">켤레 사전 분포(Conjugate Prior)</a></li>
+      </ul>
+    </li>
+    <li><a href="#감마-분포">감마 분포</a>
+      <ul>
+        <li><a href="#theta의-사후-분포">$\theta$의 사후 분포</a></li>
+        <li><a href="#322-예시--출산율">3.2.2 예시 : 출산율</a></li>
+      </ul>
+    </li>
+    <li><a href="#33-지수분포족exponential-families-과-켤레-사전-분포conjugate-prior">3.3 지수분포족(Exponential families) 과 켤레 사전 분포(Conjugate prior)</a></li>
+  </ul>
+</nav>
+	</div>
+</div>
+<div class="content post__content clearfix">
+			<h1 id="a-first-course-in-bayesian-statistical-methods">A First Course in Bayesian Statistical Methods</h1>
+<h2 id="3-파라미터가-하나인-모델one-parameter-models">3. 파라미터가 하나인 모델(One-parameter models)</h2>
+<h2 id="32-포아송-모델poisson-model">3.2 포아송 모델(Poisson model)</h2>
+<p>어떤 사람의 자식의 수, 친구의 수 같은 숫자를 세는데 있어 가장 간단한 확률 모델은 포아송 모델입니다. 그리고 이 때의 표본 공간은 $\mathcal{Y}$ = {0,1,2,&hellip;} 입니다.</p>
+<h3 id="포아송-분포">포아송 분포</h3>
+<p>다음과 같은 분포를 평균이 $\theta$인 포아송 분포라고 합니다.</p>
+<p>$$
+Pr(Y=y|\theta) = \text{scipy.stats.poisson.pmf(y},\theta) = \frac{\theta^y e^{-\theta}}{y!} \ \ for \ y \in (0,1,2,&hellip;).
+$$</p>
+<p>그리고 이러한 확률 변수는</p>
+<ul>
+<li>$E[Y|\theta] = \theta$</li>
+<li>$Var[Y|\theta] = \theta$</li>
+</ul>
+<p>입니다.</p>
+<p>포아송과 같은 분포들은 평균이 큰 분포일 수록, 분산 또한 큽니다. 그래서 &ldquo;평균-분산 관계&quot;가 있다고 말합니다.</p>
+<p><img src="https://user-images.githubusercontent.com/57588650/110325291-7ac3db00-805a-11eb-90c2-87eafc893c8a.jpeg" alt="IMG_C967558CC4F7-1"></p>
+<p><strong>그림. 3.7.</strong> 포아송 분포입니다. 왼쪽 그래프의 까만 막대는 평균이 1.83인 포아송 분포이고, 회색 막대는 실제로 1990년대에 30세 여성이 가지는 자녀의 수의 분포입니다. 오른쪽의 그래프는 10개의 평균이 1.83인 i.i.d 포아송 확률을 더한 분포입니다. 이것은 평균이 18.3인 포아송 분포와 같습니다.</p>
+<h3 id="321-사후-분포-추론">3.2.1 사후 분포 추론</h3>
+<p>이항 분포 예시와 같은 방식으로 포아송 샘플 데이터의 결합 pdf를 구해보면 다음과 같습니다.</p>
+<p>$$
+Pr(Y_1 = y_1, &hellip;, Y_n = y_n | \theta) = \prod^n_{i-1} p(y_i|\theta)
+$$</p>
+<p>$$
+= \prod^n_{i=1} \frac{1}{y_i!} \theta^{\Sigma y_i e^{\theta}}
+$$</p>
+<p>$$
+= c(y_1, &hellip;, y_n) \theta^{\Sigma y_i e^{-n \theta}}
+$$</p>
+<p>두 개의 $\theta$값 각각을 가지는 사후 확률을 비교해보면</p>
+<p>$$
+\frac{p(\theta_a|y_1, &hellip;, y_n)}{p(\theta_b|y_1, &hellip;, y_n)} = \frac{c(y_1, &hellip; , y_n)}{c(y_1, &hellip;, y_n)} \frac{e^{-n\theta_a}}{e^{-n\theta_b}} \frac{\theta_a^{\Sigma y_i}}{\theta_b^{\Sigma y_i}} \frac{p(\theta_a)}{p(\theta_b)}
+$$</p>
+<p>$$
+= \frac{e^{-n\theta_a}}{e^{-n\theta_b}} \frac{\theta_a^{\Sigma y_i}}{\theta_b^{\Sigma y_i}} \frac{p(\theta_a)}{p(\theta_b)}
+$$</p>
+<p>와 같습니다.</p>
+<p>이항 모델과 마찬가지고, i.i.d인 포아송 모델에서 $\Sigma^n_{i=1} Y_i$는 그 데이터에서 얻을 수 있는 $\theta$에 대한 모든 정보를 가지고 있습니다(즉 충분 통계량입니다.). 즉</p>
+<p>$$
+\Sigma^n_{i=1} Y_i | \theta \sim \text{Poisson}(n\theta)
+$$</p>
+<p>입니다.</p>
+<h3 id="켤레-사전-분포conjugate-prior">켤레 사전 분포(Conjugate Prior)</h3>
+<p><strong>그림. 3.7.</strong> 포아송 분포입니다. 왼쪽 그래프의 까만 막대는 평균이 1.83인 포아송 분포이고, 회색 막대는 실제로 1990년대에 30세 여성이 가지는 자녀의 수의 분포입니다. 오른쪽의 그래프는 10개의 평균이 1.83인 i.i.d 포아송 확률을 더한 분포입니다. 이것은 평균이 18.3인 포아송 분포와 같습니다.</p>
+<p>전 포스팅에서 배웠듯, 만약 어떠한 사전 분포의 클래스가 사후 분포의 클래스와 같다면 그 사전 분포를 표본 모델 $p(y_1, &hellip;, y_n | \theta)$에 대해 켤레(conjugate)라고 합니다. 포아송 표본 모델에서 $\theta$에 대한 우리의 사후 분포는 다음과 같은 형태를 따릅니다:</p>
+<p>$$
+p(\theta|y_1,&hellip;,y_n) \propto p(\theta) \times p(y_1, &hellip;, y_n|\theta)
+$$</p>
+<p>$$
+\propto p(\theta) \times \theta^{\Sigma y_i} e^{-n\theta}
+$$</p>
+<p>이것은 켤레 사전분포가 무엇이든지 $\theta^{c_1} e^{-c_2\theta}$와 같은 꼴의 항을 가지고 있다는 것을 의미합니다. 이러한 형식을 가지고 있는 분포 중 가장 간단한 것은 이 항만을 가지고 있는 감마 분포족(the family of gamma distribution)입니다.</p>
+<h2 id="감마-분포">감마 분포</h2>
+<p>미지의 양수 $\theta$는 만약 다음과 같다면 gamma(a,b) 분포를 가집니다.</p>
+<p>$$
+p(\theta) = \text{scipy.stats.gamma.pdf}(\theta,a,scale = 1/b) = \frac{b^a}{\Gamma(a)} \theta^{a-1} e^{-b\theta}, \ \ for \ \theta, a, b &gt; 0
+$$</p>
+<p>이러한 확률변수는 다음과 같은 통계량을 가집니다.</p>
+<ul>
+<li>$E[\theta] = a/b$</li>
+<li>$Var[\theta] = a/b^2$</li>
+<li>$mode[\theta] = \begin{cases} (a-1)/b \ \ \ \ if \ a&gt;1 \newline 0 \ \ \ \ if \ a \leq 1 \end{cases}$</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#f92672">as</span> plt
+<span style="color:#f92672">%</span>matplotlib inline
+plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">14</span>,<span style="color:#ae81ff">15</span>))
+<span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#f92672">from</span> scipy.stats <span style="color:#f92672">import</span> gamma
+
+<span style="color:#75715e"># Panel 1 : a=1 b=1</span>
+
+ax1 <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplot(<span style="color:#ae81ff">331</span>)
+
+theta <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">11</span>,<span style="color:#ae81ff">0.01</span>)
+ptheta <span style="color:#f92672">=</span> gamma<span style="color:#f92672">.</span>pdf(theta, <span style="color:#ae81ff">1</span>, scale <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
+
+plt<span style="color:#f92672">.</span>plot(theta, ptheta)
+plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#39;a=1 b=1&#39;</span>)
+plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$\theta$&#39;</span>)
+plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$p(\theta)$&#39;</span>)
+
+<span style="color:#75715e"># Panel 2 : a=2 b=2</span>
+
+ax1 <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplot(<span style="color:#ae81ff">332</span>)
+
+theta <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">11</span>,<span style="color:#ae81ff">0.01</span>)
+ptheta <span style="color:#f92672">=</span> gamma<span style="color:#f92672">.</span>pdf(theta, <span style="color:#ae81ff">2</span>, scale <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>)
+
+plt<span style="color:#f92672">.</span>plot(theta, ptheta)
+plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#39;a=2 b=2&#39;</span>)
+plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$\theta$&#39;</span>)
+plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$p(\theta)$&#39;</span>)
+
+<span style="color:#75715e"># Panel 3 : a=4 b=4</span>
+
+ax1 <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplot(<span style="color:#ae81ff">333</span>)
+
+theta <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">11</span>,<span style="color:#ae81ff">0.01</span>)
+ptheta <span style="color:#f92672">=</span> gamma<span style="color:#f92672">.</span>pdf(theta, <span style="color:#ae81ff">4</span>, scale <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">/</span><span style="color:#ae81ff">4</span>)
+
+plt<span style="color:#f92672">.</span>plot(theta, ptheta)
+plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#39;a=4 b=4&#39;</span>)
+plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$\theta$&#39;</span>)
+plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$p(\theta)$&#39;</span>)
+
+
+<span style="color:#75715e"># Panel 4 : a=2 b=1</span>
+
+ax1 <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplot(<span style="color:#ae81ff">334</span>)
+
+theta <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">11</span>,<span style="color:#ae81ff">0.01</span>)
+ptheta <span style="color:#f92672">=</span> gamma<span style="color:#f92672">.</span>pdf(theta, <span style="color:#ae81ff">2</span>, scale <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
+
+plt<span style="color:#f92672">.</span>plot(theta, ptheta)
+plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#39;a=2 b=1&#39;</span>)
+plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$\theta$&#39;</span>)
+plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$p(\theta)$&#39;</span>)
+
+<span style="color:#75715e"># Panel 5 : a=8 b=4</span>
+
+ax1 <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplot(<span style="color:#ae81ff">335</span>)
+
+theta <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">11</span>,<span style="color:#ae81ff">0.01</span>)
+ptheta <span style="color:#f92672">=</span> gamma<span style="color:#f92672">.</span>pdf(theta, <span style="color:#ae81ff">8</span>, scale <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">/</span><span style="color:#ae81ff">4</span>)
+
+plt<span style="color:#f92672">.</span>plot(theta, ptheta)
+plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#39;a=8 b=4&#39;</span>)
+plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$\theta$&#39;</span>)
+plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$p(\theta)$&#39;</span>)
+
+
+<span style="color:#75715e"># Panel 6 : a=32 b=16</span>
+
+ax1 <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplot(<span style="color:#ae81ff">336</span>)
+
+theta <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">11</span>,<span style="color:#ae81ff">0.01</span>)
+ptheta <span style="color:#f92672">=</span> gamma<span style="color:#f92672">.</span>pdf(theta, <span style="color:#ae81ff">32</span>, scale <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">/</span><span style="color:#ae81ff">16</span>)
+
+plt<span style="color:#f92672">.</span>plot(theta, ptheta)
+plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#39;a=32 b=16&#39;</span>)
+plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$\theta$&#39;</span>)
+plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$p(\theta)$&#39;</span>)
+
+
+plt<span style="color:#f92672">.</span>show()
+</code></pre></div><p><img src="https://user-images.githubusercontent.com/57588650/110474328-e2455d80-8122-11eb-94a7-a6957d9f205b.png" alt="output_21_0"></p>
+<p><strong>그림. 3.8.</strong> 감마 확률 밀도 함수</p>
+<h3 id="theta의-사후-분포">$\theta$의 사후 분포</h3>
+<p>사전 분포 : p($\theta$) = $\text{scipy.stats.gamma.pdf}(\theta,a,scale = 1/b)$</p>
+<p>데이터 : $Y_1, &hellip;, Y_n|\theta \sim \text{i.i.d.} \ Poisson(\theta)$</p>
+<p>라면 사후분포는</p>
+<p>$$
+\begin{align}
+p(\theta|y_1, &hellip;, y_n) = p(\theta) \times p(y_1, &hellip;, y_n | \theta) / p(y_1, &hellip;, y_n) \newline
+=(\theta^{a-1} e^{-b\theta}) \times (\theta^{\Sigma y_i} e^{-n\theta}) \times c(y_1,&hellip;,y_n,a,b). \newline
+= (\theta^{a + \Sigma y_i -1} e^{-(b+n)\theta}) \times c(y_1, &hellip;, y_n, a, b)
+\end{align}
+$$</p>
+<p>이는 명확하게 감마 분포의 형태이고, 다음과 같은 켤레성이 있다는 것을 확인할 수 있습니다.</p>
+<p>$$
+\begin{cases} \theta \sim gamma(a,b) \newline Y_1, &hellip;, Y_n | \theta \sim Poisson(\theta) \end{cases}  \Rightarrow \theta|Y_1,&hellip;,Y_n \sim gamma(a+\sum^n_{i=1} Y_i, b+n).
+$$</p>
+<p>추정과 예측 과정은 이항 모델과 비슷합니다.</p>
+<p>$\theta$의 사후 기댓값은 사전 기댓값과 표본 평균의 <a href="https://ko.wikipedia.org/wiki/%EB%B3%BC%EB%A1%9D_%EC%A1%B0%ED%95%A9">볼록 조합</a>입니다.:</p>
+<p>$$
+\begin{align}
+E[\theta|y_1, &hellip;, y_n] = \frac{a + \Sigma y_i}{b+n} \newline
+= \frac{b}{b+n} \frac{a}{b} + \frac{n}{b+n} \frac{\Sigma y_i}{n}
+\end{align}
+$$</p>
+<ul>
+<li>b는 사전 관찰값들의 수입니다</li>
+<li>a는 b개의 사전 관찰값들이 가지고 있는 갯수의 합입니다.(예를 들면, 사전 관찰값에서 $\alpha$라는 사람의 자식이 2명, $\beta$라는 사람의 자식이 3명이라면 b = 2, a = 2 + 3 = 5)</li>
+</ul>
+<p>$n$이 크다면, 데이터로 부터의 정보가 사전 정보를 압도합니다</p>
+<p>$$
+if n &raquo; b \Rightarrow E[\theta|y_1, &hellip;, y_n] \approx \bar{y},
+Var[\theta|y_1, &hellip;, y_n] \approx \bar{y}/n
+$$</p>
+<p>($n \rightarrow \infty$ 라고 생각해보세요)</p>
+<p>추가적인 데이터가 어떤 값을 가질지에 대한 예측은 사후 예측 분포를 통해 구할 수 있습니다.</p>
+<p>$$
+\begin{align}
+p(\tilde{y}|y_1, &hellip;, y_n) = \int^{\infty}<em>0 p(\tilde{y}|\theta, y_1, &hellip;, y_n)p(\theta|y_1, &hellip;, y_n) d\theta \ \ \ (\text{by 주변 확률의 법칙})\newline
+= \int p(\tilde{y}|\theta)p(\theta|y_1, &hellip;, y_n) d\theta \ (\theta \text{가 주어졌을 때} \ y_1, &hellip;, y_n \ \text{는 조건부 독립})\newline
+= \int dpois(\tilde{y}, \theta)dgamma(\theta, a+\Sigma y_i, b+n) d\theta \newline
+= \int \bigg( \frac{1}{\tilde{y}!} \theta^{\tilde{y}} e^{-\theta} \bigg) \bigg( \frac{(b+n)^{a + \Sigma y_i}}{\Gamma(a+\Sigma y_i)} \theta^{a + \Sigma y_i -1} e^{-(b+n)\theta} \bigg) d\theta \newline
+= \frac{(b+n)^{a + \Sigma y_i}}{\Gamma(\tilde{y} + 1) \Gamma(a+\Sigma y_i)} \int^{\infty}</em>{0} \theta^{a + \Sigma y_i + \tilde{y} - 1} e^{-(b+n+1)\theta} d\theta.
+\end{align}
+$$</p>
+<p>맨 뒤의 적분은 복잡해보이지만, 베타 사후 분포 때와 마찬가지로 감마 pdf를 적분한 값이 1이라는 사실을 사용하면 됩니다.</p>
+<p>$$
+1 = \int^{\infty}_0 \frac{b^a}{\Gamma(a)}\theta^{a-1} e^{-b\theta} d\theta \ \ \text{for any values a,b}&gt;0.
+$$</p>
+<p>즉</p>
+<p>$$
+\int^{\infty}_0 \theta^{a-1} e^{-b\theta} d\theta = \frac{\Gamma(a)}{b^a} \ \ \text{for any values a,b} &gt;0
+$$</p>
+<p>이고, 여기에 a는 $a + \Sigma y_i + \tilde{y}$를, b에는 $b + n + 1$을 대입하면 사후 예측 분포의 적분 부분을 구할 수 있습니다.</p>
+<p>$$
+\int^{\infty}_{0} \theta^{a + \Sigma y_i + \tilde{y} -1} e^{-(b+n+1) \theta} d\theta = \frac{\Gamma(a + \Sigma y_i + \tilde{y})}{(b + n + 1)^{a+\Sigma y_i + \tilde{y}}}
+$$</p>
+<p>결과적으로 사후 예측 분포를 간단하게 표현하면 다음과 같습니다</p>
+<p>$$
+p(\tilde{y}|y_1, &hellip;, y_n) = \frac{\Gamma(a+\Sigma y_i + \tilde{y})}{\Gamma(\tilde{y}+1)\Gamma(a + \Sigma y_i)} \bigg( \frac{b+n}{b+n+1} \bigg)^{a + \Sigma y_i} \bigg(\frac{1}{b+n+1} \bigg)^{\tilde{y}} \ \ \text{for} \ \tilde{y} \in (0,1,2,&hellip;)
+$$</p>
+<p>이것은 파라미터가 $(a + \Sigma y_i, b+n)$인 음이항분포(negative binomial)이고 따라서 다음과 같은 통계량을 가집니다.</p>
+<p>$$
+\begin{align}
+E[\tilde{Y}|y_1, &hellip;, y_n] = \frac{a+\Sigma y_i}{b+n} = E[\theta|y_1,&hellip;,y_n]; \newline
+Var[\tilde{Y}|y_1, &hellip;, y_n] = \frac{a + \Sigma y_i}{b+n} \frac{b+n+1}{b+n} = Var[\theta|y_1, &hellip;, y_n] \times (b + n + 1) \newline
+=E[\theta|y_1, &hellip;, y_n] \times \frac{b+n+1}{b+n}
+\end{align}
+$$</p>
+<p>예측 분산의 식에 대해 더 깊게 이해해봅시다. 예측 분산이란 모집단에서 뽑은 새로운 샘플 $\tilde{Y}$의 사후 불확실성의 정도를 확장한 것입니다. $\tilde{Y}$의 불확실성은 모집단에 대한 불확실성과 모집단에서 뽑은 표본의 변동성의 한 줄기입니다. 큰 n에 대해서 $\theta$에 대한 불확실성은 작습니다((b+n+1) / (b+n) $\approx$ 1) 그리고 $\tilde(Y)$가 가지고 있는 불확실성의 대부분은 표본의 변동성에서 옵니다. 포아송 모델에서 이것은 $\theta$입니다. 작은 n에 대해서는 $\tilde{Y}$의 불확실성은 $\theta$에 대한 불확실성까지 포함합니다. 그래서 전체 불확실성은 표본의 변동성보다 더 큽니다((b+n+1) / (b+n) &gt; 1).</p>
+<h3 id="322-예시--출산율">3.2.2 예시 : 출산율</h3>
+<p><img src="https://user-images.githubusercontent.com/57588650/110417259-979ef380-80d8-11eb-9679-2c0743af7ecd.jpeg" alt="IMG_4EB359DDE5FD-1"></p>
+<p><strong>그림. 3.9</strong> 학사 학위 미만, 이상 두 그룹의 자녀의 수</p>
+<p>이 예시에서는 학사 학위 미만의 학력을 가진 여성과, 이상을 가진 여성의 출산율 차이를 비교해볼 것입니다. 주어진 데이터는 다음과 같습니다.</p>
+<ul>
+<li>$Y_{1,1} , &hellip; , Y_{n_1,1}$ : 학사 학위가 없는 여성의 자녀의 수</li>
+<li>$Y_{1,2} , &hellip; , Y_{n_2,2}$ : 학사 학위가 있는 여성의 자녀의 수</li>
+</ul>
+<p>그리고 이 데이터는 다음과 같은 표본 모델을 따른다고 하겠습니다</p>
+<p>$$
+Y_{1,1}, &hellip; , Y_{n_1, 1} | \theta_1 \ \sim \ \text{i.i.d.} \ Poisson(\theta_1)
+$$</p>
+<p>$$
+Y_{1,2}, &hellip; , Y_{n_2, 2} | \theta_1 \ \sim \ \text{i.i.d.} \ Poisson(\theta_2)
+$$</p>
+<p>이 데이터에 포아송 모델을 쓰는 것이 적절한지는 다음 챕터에서 보도록 하겠습니다.</p>
+<p>데이터의 경험적인 분포는 <strong>그림. 3.9</strong>에 나와있고, 그룹합과 평균은 다음과 같습니다.</p>
+<p>학사 학위 미만 : $n_1 = 111, \sum^{n_1}<em>{i=1} Y</em>{i,1} = 217, \bar{Y}_1 = 1.95$</p>
+<p>학사 학위 이상 : $n_2 = 44, \sum^{n_2}<em>{i=1} Y</em>{i,2} = 66, \bar{Y}_2 = 1.50$</p>
+<p>{$\theta_1, \theta_2$} $\sim$ i.i.d. gamma(a=2, b=1)일 때, 다음과 같은 사후 분포를 가집니다.</p>
+<p>$\theta_1|$ {$n_1 = 111, \Sigma Y_{i,1} = 217$} $\sim$ gamma(2+217, 1+111) = gamma(219, 112)</p>
+<p>$\theta_2|$ {$n_2 = 44, \Sigma Y_{i,1} = 66$} $\sim$ gamma(2+66, 1+44) = gamma(68, 45)</p>
+<p>$\theta_1, \theta_2$의 사후 평균, 최빈값, 그리고 95% 분위수 기반 신뢰구간은 이 감마 사후 분포들로 구할 수 있습니다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> scipy.stats <span style="color:#f92672">import</span> gamma
+
+<span style="color:#75715e">## 사전 분포의 파라미터</span>
+a <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+b <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+
+<span style="color:#75715e">## 데이터</span>
+
+<span style="color:#75715e">### 그룹 1</span>
+n_1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">111</span>
+sum_y1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">217</span>
+
+<span style="color:#75715e">### 그룹 2</span>
+n_2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">44</span>
+sum_y2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">66</span>
+
+<span style="color:#75715e">## 그룹 1의 사후 평균, 최빈값, 95% 신뢰구간</span>
+
+<span style="color:#75715e">### 평균</span>
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;그룹 1의 사후 평균 = &#34;</span>, (a <span style="color:#f92672">+</span> sum_y1) <span style="color:#f92672">/</span> (b <span style="color:#f92672">+</span> n_1))
+
+<span style="color:#75715e">### 최빈값</span>
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;그룹 1의 사후 최빈값 = &#34;</span>, (a <span style="color:#f92672">+</span> sum_y1 <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> (b <span style="color:#f92672">+</span> n_1))
+
+<span style="color:#75715e">### 95% 신뢰구간</span>
+l, u <span style="color:#f92672">=</span> gamma<span style="color:#f92672">.</span>ppf([<span style="color:#ae81ff">0.025</span>, <span style="color:#ae81ff">0.975</span>], a <span style="color:#f92672">+</span> sum_y1, scale <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">/</span> (b <span style="color:#f92672">+</span> n_1))
+          
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;그룹 1의 95% 신뢰구간 = &#34;</span>, l, u)
+
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;-------------------------------------------------------------&#34;</span>)
+
+<span style="color:#75715e">## 그룹 2의 사후 평균, 최빈값, 95% 신뢰구간</span>
+
+<span style="color:#75715e">### 평균</span>
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;그룹 2의 사후 평균 = &#34;</span>, (a <span style="color:#f92672">+</span> sum_y2) <span style="color:#f92672">/</span> (b <span style="color:#f92672">+</span> n_2))
+
+<span style="color:#75715e">### 최빈값</span>
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;그룹 2의 사후 최빈값 = &#34;</span>, (a <span style="color:#f92672">+</span> sum_y2 <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> (b <span style="color:#f92672">+</span> n_2))
+
+<span style="color:#75715e">### 95% 신뢰구간</span>
+l, u <span style="color:#f92672">=</span> gamma<span style="color:#f92672">.</span>ppf([<span style="color:#ae81ff">0.025</span>, <span style="color:#ae81ff">0.975</span>], a <span style="color:#f92672">+</span> sum_y2, scale <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">/</span> (b <span style="color:#f92672">+</span> n_2))
+          
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;그룹 2의 95% 신뢰구간 = &#34;</span>, l, u)
+
+
+</code></pre></div><pre><code>그룹 1의 사후 평균 =  1.9553571428571428
+그룹 1의 사후 최빈값 =  1.9464285714285714
+그룹 1의 95% 신뢰구간 =  1.7049431489418194 2.2226790202451725
+-------------------------------------------------------------
+그룹 2의 사후 평균 =  1.511111111111111
+그룹 2의 사후 최빈값 =  1.488888888888889
+그룹 2의 95% 신뢰구간 =  1.1734369056138325 1.8908362583954745
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#f92672">as</span> plt
+<span style="color:#f92672">%</span>matplotlib inline
+plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">12</span>,<span style="color:#ae81ff">6</span>))
+<span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#f92672">from</span> scipy.stats <span style="color:#f92672">import</span> gamma, nbinom
+
+<span style="color:#75715e">## 사전 분포의 파라미터</span>
+a <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+b <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+
+<span style="color:#75715e">## 데이터</span>
+
+<span style="color:#75715e">### 그룹 1</span>
+n_1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">111</span>
+sum_y1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">217</span>
+
+<span style="color:#75715e">### 그룹 2</span>
+n_2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">44</span>
+sum_y2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">66</span>
+
+<span style="color:#75715e"># Panel 1 : 평균 출산율의 사후 분포</span>
+
+ax1 <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplot(<span style="color:#ae81ff">121</span>)
+
+<span style="color:#75715e">## 그룹 1</span>
+theta <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">0.01</span>)
+ptheta <span style="color:#f92672">=</span> gamma<span style="color:#f92672">.</span>pdf(theta, sum_y1 <span style="color:#f92672">+</span> a , scale <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">/</span>(n_1 <span style="color:#f92672">+</span> b))
+
+plt<span style="color:#f92672">.</span>plot(theta, ptheta, label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Group 1 : Less than bachelor</span><span style="color:#ae81ff">\&#39;</span><span style="color:#e6db74">s&#39;</span>)
+
+
+<span style="color:#75715e">## 그룹 2</span>
+
+ptheta <span style="color:#f92672">=</span> gamma<span style="color:#f92672">.</span>pdf(theta, sum_y2 <span style="color:#f92672">+</span> a, scale <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">/</span>(n_2 <span style="color:#f92672">+</span> b))
+
+plt<span style="color:#f92672">.</span>plot(theta_1, ptheta, label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Group 2 : Bachelor</span><span style="color:#ae81ff">\&#39;</span><span style="color:#e6db74">s or higher&#39;</span>)
+
+<span style="color:#75715e">## 사전 분포</span>
+ptheta <span style="color:#f92672">=</span> gamma<span style="color:#f92672">.</span>pdf(theta, a,b)
+plt<span style="color:#f92672">.</span>plot(theta, ptheta ,linestyle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;--&#39;</span>, label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Posterior : gamma(2,1)&#39;</span>)
+
+plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$\theta$&#39;</span>)
+plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$p(\theta|y_1, ..., y_n)$&#39;</span>)
+plt<span style="color:#f92672">.</span>legend(loc <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;upper right&#39;</span>)
+
+
+<span style="color:#75715e"># Panel 2 : 사후 예측 분포</span>
+
+ax2 <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplot(<span style="color:#ae81ff">122</span>)
+
+
+<span style="color:#75715e">## 그룹 1</span>
+
+newy <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">13</span>,<span style="color:#ae81ff">1</span>)
+pnewy <span style="color:#f92672">=</span> nbinom<span style="color:#f92672">.</span>pmf(newy, a <span style="color:#f92672">+</span> sum_y1, (b<span style="color:#f92672">+</span>n_1)<span style="color:#f92672">/</span>(b<span style="color:#f92672">+</span>n_1<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>))
+
+plt<span style="color:#f92672">.</span>bar(newy<span style="color:#f92672">-</span><span style="color:#ae81ff">0.1</span>, pnewy, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.2</span>, label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Less than bachelor</span><span style="color:#ae81ff">\&#39;</span><span style="color:#e6db74">s&#39;</span>)
+        
+
+<span style="color:#75715e">## 그룹 2</span>
+        
+pnewy <span style="color:#f92672">=</span> nbinom<span style="color:#f92672">.</span>pmf(newy, a <span style="color:#f92672">+</span> sum_y2, (b<span style="color:#f92672">+</span>n_2)<span style="color:#f92672">/</span>(b<span style="color:#f92672">+</span>n_2<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>))
+        
+plt<span style="color:#f92672">.</span>bar(newy<span style="color:#f92672">+</span><span style="color:#ae81ff">0.1</span>, pnewy, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.2</span>, label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Bachelor</span><span style="color:#ae81ff">\&#39;</span><span style="color:#e6db74">s or higer&#39;</span>)
+
+
+plt<span style="color:#f92672">.</span>ylim(<span style="color:#f92672">-</span><span style="color:#ae81ff">0.01</span>,<span style="color:#ae81ff">0.35</span>)
+plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$y_{n+1}$&#39;</span>)
+plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;$p(y_{n+1}|y_1, ..., y_n)$&#39;</span>)
+plt<span style="color:#f92672">.</span>legend(loc <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;upper right&#39;</span>)
+
+
+plt<span style="color:#f92672">.</span>show()
+</code></pre></div><p><img src="https://user-images.githubusercontent.com/57588650/110474335-e40f2100-8122-11eb-9474-d5723190e9cf.png" alt="output_42_0"></p>
+<p><strong>그림. 3.10.</strong> 왼쪽 그래프는 평균 출산율의 사후 분포를 나타내고(점선으로 나타난 부분은 공통 사전 분포), 오른쪽은 자식의 수의 사후 예측 분포를 나타냅니다.</p>
+<p>이 그래프를 보면 알 수 있듯이 사후 분포는 $\theta_1 &gt; \theta_2$라는 명확한 증거를 보여줍니다. 예를 들어 $Pr(\theta_1 &gt; \theta_2 | \Sigma Y_{i,1} = 217, \Sigma Y_{i,2} = 66) = 0.97$로 $\theta_1$이 $\theta_2$보다 클 확률이 97%로 매우 높습니다. 이제 각각의 그룹별 모집단 두 명의 무작위로 추출된 샘플을 생각해봅시다. 과연 학위가 없는 그룹에서 뽑은 사람이 있는 그룹에서 뽑은 사람보다 자식의 수가 많을까요? 우리는 이 확률을 정확하게 구할 수 있습니다. $\tilde{Y_1}, \tilde{Y_2}$의 사후 예측 분포는 모두 음이항분포를 따르며 위 그림의 오른쪽 그래프와 같이 나타낼 수 있습니다.</p>
+<p>그런데 왼쪽과 오른쪽 그래프의 차이가 보이시나요? 바로 오른쪽의 그래프가 왼쪽의 그래프보다 겹치는 부분이 더 많습니다. 예를 들어 $Pr(\tilde{Y_1} &gt; \tilde{Y_2} | \Sigma Y_{i,1} = 217, \Sigma Y_{i,2} = 66) = 0.48$이고 $Pr(\tilde{Y_1} = \tilde{Y_2} | \Sigma Y_{i,1} = 217, \Sigma Y_{i,2} = 66) = 0.22$입니다. 왼쪽의 그래프에서 나타나는 방식의 {$\theta_1 &gt; \theta_2$}와 오른쪽의 그래프에서 나타나는 방식인 {$\tilde{Y_1} &gt; \tilde{Y_2}$} 간의 차이는 매우 중요합니다. 이것은 두 모집단이 그렇게 큰 차이를 보이진 않는다는 강한 증거가 됩니다.</p>
+<h2 id="33-지수분포족exponential-families-과-켤레-사전-분포conjugate-prior">3.3 지수분포족(Exponential families) 과 켤레 사전 분포(Conjugate prior)</h2>
+<p>지금까지 배운 이항 모델과 포아송 모델은 모두 파라미터가 하나인 지수분포족의 예시입니다. 파라미터가 하나인 지수분포족은 다음과 같은 형태의 함수입니다.</p>
+<p>$$
+p(y|\phi) = h(y)c(\phi)e^{\phi t(y)}, \ \ \text{이 때} \ \ \phi \text{는 미지수 이고, } \ t(y)\text{는 충분 통계량(sufficient statistic)입니다.}
+$$</p>
+<p>Diaconis와 Ylvisaker (1979)는 지수분포족에 모두 먹히는, 특히 사전 분포가 $p(\phi|n_0, t_0) = \kappa(n_0, t_0) c(\phi)^{n_0} e^{n_0 t_0 \phi}$ 형태에 일반적으로 적용되는 켤레 사전 분포에 대해 연구했습니다. 이러한 사전 분포와 $Y_1, &hellip;, Y_n \sim \text{i.i.d.} \ p(y|\phi)$으로 부터 뽑힌 정보를 결합하면 다음과 같은 사후 분포를 얻을 수 있게 됩니다.</p>
+<p>$$
+\begin{align}
+p(\phi|y_1, &hellip;, y_n) \propto p(\phi) p(y_1, &hellip;, y_n | \phi) \newline
+= \underbrace{p(\phi)}<em>{\kappa(n_0, t_0) c(\phi)^{n_0} e^{n_0 t_0 \phi}} \prod</em>{i=1}^n \underbrace{p(y_i|\theta)}_{h(y)c(\phi)e^{\phi t(y)}}
+\end{align}
+$$
+이 때, $\kappa(n_0, t_0), h(y)$가 상수항이므로</p>
+<p>$$
+\propto \underbrace{\prod_{i=1}^n c(\phi) e^{\phi t(y_i)}}_{c(\phi)^n e^{\phi \sum_{i=1}^n t(y_i)}} \times c(\phi)^{n_0} e^{n_0 t_0 \phi}
+$$</p>
+<p>$$
+= c(\phi)^{n_0+n} exp \bigg( \phi \times \bigg[ n_ot_0 + \sum_{i=1}^n t(y_i) \bigg] \bigg)
+$$</p>
+<p>이 식을 $p(\phi|n_0, t_0) = \kappa(n_0, t_0) c(\phi)^{n_0} e^{n_0 t_0 \phi}$ 이 식의 우항이라고 생각하고 적용하면 결과적으로 다음과 같이 정리할 수 있습니다.</p>
+<p>$$
+\propto p(\phi|n_0 + n, n_0 t_0 + n\bar{t}(\textbf{y})), \ \text{이 때} \ \bar{t}(y) = \Sigma t(y_i) / n
+$$</p>
+<p>사후 분포와 사전 분포의 비슷한 부분에서 볼 수 있듯, $n_0$을 &ldquo;사전 표본 크기&quot;로, $t_0$은 $t(Y)$에 대한 &ldquo;사전 추정값&quot;으로 해석될 수 있습니다.</p>
+<p>또한 이와같은 해석은 다음과 같이 더 정확하게 표현될 수 있습니다.</p>
+<p>$$
+E[t(y)] = E[E[t(Y)|\phi]] \ \ \ (\text{수통 시간에 배웠죠?})
+$$</p>
+<p>$$
+= E[-c'(\phi) / c(\phi)] = t_0
+$$</p>
+<p>이때문에 $t_0$은 $t(Y)$의 사전 기댓값을 나타냅니다.</p>
+<p>파라미터 $n_0$는 그 사전 분포가 얼마나 많은 정보를 포함하고 있는지 포여주는 측도입니다. 이 측도를 계량화하는 방법은 많지만, 가장 쉬운 것은 $\phi$에 대한 함수로서 $p(\phi|n_0, t_0)$이 $n_0$개의 &ldquo;사전 관찰값&rdquo; $\tilde{y_1}, &hellip;, \tilde{y}_{n_0}$으로부터 온 우도(likelihood)인 $p(\tilde{y}<em>1, &hellip;, \tilde{y}</em>{n_0}|\phi)$과 같은 모양을 가진다는 것을 사용하는 것입니다. 이 때 $\Sigma t(\tilde{y}_i)/n_0 = t_0$입니다. 이것을 사용해서, 사전 분포 $p(\phi|n_0, t_0)$이 모집단으로 부터 독립적으로 추출한 $n_0$개의 샘플과 같은 양의 정보를 가지고 있다는 것을 알 수 있게됩니다.</p>
+<p><strong>예시 : 이항 모델</strong></p>
+<p>이항 모델은 다음과 같은 방법으로 지수분포꼴의 모양으로 변환시킬 수 있습니다.</p>
+<p>\begin{align}
+p(y|\theta) = \theta^y(1-\theta)^{1-y} \newline
+= \bigg(\frac{\theta}{1-\theta} \bigg)^y (1 - \theta) \newline
+= e^{\phi y}(1+e^{\phi})^{-1}
+\end{align}</p>
+<p>이 때 $\phi = log[\theta / (1-\theta)]$이고, 이는 여러분이 알듯 log-odd입니다.</p>
+<p>$\phi$에 대한 켤레 사전분포는 따라서 $p(\phi|n_0, t_0) \propto (1 + e^{\phi})^{-n_0} e^{n_0 t_0 \phi}$입니다. 이 때 $t_0$은 $t(y) = y$의 사전 기댓값 또는 $Y=1$이라는 우리의 사전 확률을 표현합니다. $\theta$에 대한 사전 분포인 $p(\theta|n_0, t_0) \propto \theta^{n_0t_0 - 1}(1-\theta)^{n_0(1-t_0)-1}$의 변수를 이리저리 변형해보면 $beta(n_0t_0, n_0(1-t_0))$라는 사전 분포를 얻을 수 있습니다. 약한 사전 분포(weakly informative prior distribution)는 $t_0$은 우리의 사전 기댓값으로, $n_0=1$로 설정함으로써 얻을 수 있습니다. 만약 우리의 사전 기댓값이 1/2라면, 결과로 나오는 사전 분포는 beta(1/2, 1/2)입니다. 그리고 이것은 이항 표본추출 모델의 Jefferys' prior distribution(<a href="https://rooney-song.tistory.com/18">여기서 알아봅시다</a>)과 같습니다. 약한 $beta(t_0, (1-t_0))$ 사전 분포 하에서, 사후 분포는 {$\theta|y_1, &hellip;, y_n$} $\sim beta(t_0 + \Sigma y_i, (1-t_0) + \Sigma(1-y_i))$입니다.</p>
+<p><strong>예시 : 포아송 모델</strong></p>
+<p>Poisson($\theta$) 모델은 다음을 활용해 지수분포족 모델로 보일 수 있습니다.</p>
+<ul>
+<li>t(y) = y;</li>
+<li>$\phi = log\theta$</li>
+<li>$c(\phi) = exp(e^{-\phi})$</li>
+</ul>
+<p>$\phi$의 켤레 사전 분포는 따라서 $p(\phi|n_0, t_0) = exp(n_0 e^{-\phi}) e^{n_0 t_0 y}$ 이고, 이 때 $t_0$은 $Y$의 모평균의 사전 기댓값입니다. 이것을 $\theta$에 대한 사전 밀도 함수로 나타내면 $p(\theta|n_0, t_0) \propto \theta^{n_0 t_0 -1}e^{-n_0\theta}$이고, 이것은 $gamma(n_0t_0, n_0)$의 확률 밀도 함수입니다.</p>
+<p>약한 사전 분포는 $t_0$을 Y의 사전 기댓값으로 놓고 $n_0 = 1$로 놓음으로서 얻을 수 있고, 이는 $gamma(t_0, 1)$ 사전 분포를 제공합니다. 이러한 사전 분포 하에서의 사후 분포는 {$\theta|y_1, &hellip;, y_n$} $\sim \ gamma(t_0 + \Sigma y_i, 1 + n)$입니다.</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/bayesian/" rel="tag">Bayesian</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">Python</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<div class="authorbox__header">
+		<span class="authorbox__name"></span>
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/3_one_parameter_model_1_binomial_model/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;</span>
+			<p class="pager__title">A First Course in Bayesian Statistical Methods Chapter 3 . One parameter model</p>
+		</a>
+	</div>
+</nav>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2021 Tai Hwan Oh.
+			<span class="footer__copyright-credits"></span>
+		</div>
+	</div>
+</footer>
+
+
+	</div>
+<script async defer src="/js/menu.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async>
+MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+           extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    }
+    });
+    MathJax.Hub.Queue(function() {
+      
+      
+      
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i = 0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  
+    MathJax.Hub.Config({
+    
+    TeX: { equationNumbers: { autoNumber: "AMS" } }
+    });
+</script>
+
+</body>
+</html>
