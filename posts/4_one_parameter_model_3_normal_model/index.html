@@ -134,7 +134,7 @@ $$</p>
 = \int p(\tilde{y}|\theta, y) p(\theta|y)d\theta
 $$</p>
 <p>$$
-= \int \underbrace{p(\tilde{y}|\theta)}<em>{\text{평균이} \ \theta \ \text{이고, 분산이 }\sigma^2\text{인 정규분포}}\underbrace{p(\theta|y)d\theta}</em>{\text{평균이} \ \mu_1 \ \text{이고, 분산이 }\tau_1^2\text{인 정규분포}}
+= \int \underbrace{p(\tilde{y}|\theta)}<em>{\text{normal distribution such that mean is} \ \theta \ \text{and variance is }\sigma^2 } \underbrace{p(\theta|y)d\theta}</em>{\text{normal distirbution such that mean is} \ \mu_1 \ \text{and variance is}\tau_1^2}
 $$</p>
 <p>$$
 \propto \int \ \ \ exp \bigg(-\frac{1}{2\sigma^2}(\tilde{y} - \theta)^2 \bigg) exp \bigg(- \frac{1}{2\tau_1^2}(\theta-\mu_1)^2 \bigg) d\theta
