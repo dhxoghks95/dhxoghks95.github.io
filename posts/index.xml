@@ -8,16 +8,6 @@
     <language>ko-kr</language>
     <lastBuildDate>Thu, 18 Mar 2021 17:34:01 +0900</lastBuildDate><atom:link href="http://example.org/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>A First Course in Bayesian Statistical Methods Chapter 4 . One parameter model, 3. Normal Model</title>
-      <link>http://example.org/posts/4_one_parameter_model_3_normal_model/</link>
-      <pubDate>Thu, 18 Mar 2021 17:34:01 +0900</pubDate>
-      
-      <guid>http://example.org/posts/4_one_parameter_model_3_normal_model/</guid>
-      <description>A First Course in Bayesian Statistical Methods 4. 파라미터가 하나인 정규 모델(One-parameter Normal Model) 4.1 데이터와 사전 정보 사이의 타협(compromise)으로서의 사후 분포 사후 확률 분포는 현재 가지고 있는 파라미터 $\theta$에 대한 모든 정보를 가지고 있습니다. 이상적으로는 전체 사후 분포 $p(\theta|y)$를 만드는 것이 가장 좋을 것입니다. 베이지안 접근 방법의 가장 큰 장점은 아무리 어떤 어려운 변환 후에도 사후 추론의 요약 통계량을 구할 수 있을 만큼 유연하다는 것입니다.
-그러나 많은 실용적인 목적에서는 분포의 다양한 요약 통계량이 필요합니다.</description>
-    </item>
-    
-    <item>
       <title>A First Course in Bayesian Statistical Methods Chapter 5. Multi Parameter Model</title>
       <link>http://example.org/posts/5_multi_parameter_model/</link>
       <pubDate>Thu, 18 Mar 2021 17:34:01 +0900</pubDate>
@@ -27,6 +17,16 @@
  파라미터는 $\theta = (\theta_1, \theta_2)$와 같이 두 파트를 가지고 있습니다. 두 개 중 $\theta_1$의 추론에만 관심이 있습니다. 이 때 관심 없는 $\theta_2$를 &amp;lsquo;nuiance 파라미터&amp;rsquo;라고 합니다.  정규 분포를 예로 들면,
 $$ y|\mu,\sigma^2 \sim N(\mu, \sigma^2) $$
 에서, 각각의 $\mu(=\theta_1)$와 $\sigma^2(=\theta_2)$는 미지수이고, 보통은 $\mu$에 관심이 있습니다.</description>
+    </item>
+    
+    <item>
+      <title>A First Course in Bayesian Statistical Methods Chapter 4 . One parameter model, 3. Normal Model</title>
+      <link>http://example.org/posts/4_one_parameter_model_3_normal_model/</link>
+      <pubDate>Thu, 18 Mar 2021 17:33:01 +0900</pubDate>
+      
+      <guid>http://example.org/posts/4_one_parameter_model_3_normal_model/</guid>
+      <description>A First Course in Bayesian Statistical Methods 4. 파라미터가 하나인 정규 모델(One-parameter Normal Model) 4.1 데이터와 사전 정보 사이의 타협(compromise)으로서의 사후 분포 사후 확률 분포는 현재 가지고 있는 파라미터 $\theta$에 대한 모든 정보를 가지고 있습니다. 이상적으로는 전체 사후 분포 $p(\theta|y)$를 만드는 것이 가장 좋을 것입니다. 베이지안 접근 방법의 가장 큰 장점은 아무리 어떤 어려운 변환 후에도 사후 추론의 요약 통계량을 구할 수 있을 만큼 유연하다는 것입니다.
+그러나 많은 실용적인 목적에서는 분포의 다양한 요약 통계량이 필요합니다.</description>
     </item>
     
     <item>
