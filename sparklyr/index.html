@@ -44,7 +44,31 @@ sparklyr, dplyr, 그리고 기계학습 문서를 토대로 작성되었습니�
 	</div>
 		<div class="divider"></div>
 	</div>
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[', '\\]']],
+      processEscapes: true,
+      processEnvironments: true
+    },
+    options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+  };
+
+  window.addEventListener('load', (event) => {
+      document.querySelectorAll("mjx-container").forEach(function(x){
+        x.parentElement.classList += 'has-jax'})
+    });
+
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
 </header>
+
 		<div class="wrapper flex">
 			<div class="primary">
 			
@@ -543,13 +567,9 @@ src_tbls(sc)</code></pre>
 	</div>
 </footer>
 
-</body>
-
-</html>
 
 	</div>
 <script async defer src="/js/menu.js"></script>
-
 
 </body>
 </html>
