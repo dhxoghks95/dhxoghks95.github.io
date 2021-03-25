@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>A First Course In Bayesian Statistical Methods Chapter 6. Multivariate Normal Model, 2. Gibbs Sampling - Oh Data Science</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="A First Course In Bayesian Statistical Methods Chapter 6. Multivariate Normal Model, 2. Gibbs Sampling" />
+<meta property="og:description" content="A First Course in Bayesian Statistical Methods 6. 다변량 정규 모델(Multivariate normal model) 6.4 깁스 샘플러를 사용한 평균과 공분산 표본 추출 지난 포스팅에서 다음을 배웠습니다.
+$$ { \boldsymbol{\theta} | \mathbf{y_1}, &hellip;, \mathbf{y_n}, \Sigma } \sim MVN(\boldsymbol{\mu_n}, \Lambda_n) \
+{ \Sigma | \mathbf{y_1}, &hellip;, \mathbf{y_n}, \boldsymbol{\theta} } \sim \text{inverse-Wishart}(\nu_n, \boldsymbol{S_n}^{-1}) $$
+이 때 $\Lambda_n, \mu_n$은 식 (6.4), (6.5)에서 정의되었고, $\nu_n = \nu_0 &#43; n$ , $\boldsymbol{S_n} = \boldsymbol{S_0} &#43; \boldsymbol{S_{\theta}}$입니다.
+이 두 가지 full conditional distribution은 깁스 샘플러(Gibbs sampler)를 구축하는데 사용됩니다." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/posts/6_multivariate_normal_model_2._gibbs_sampling/" />
+<meta property="article:published_time" content="2021-03-25T18:22:38+09:00" />
+<meta property="article:modified_time" content="2021-03-25T18:22:38+09:00" />
+
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo">
+		<a class="logo__link" href="/" title="Oh Data Science" rel="home">
+			<div class="logo__item logo__text">
+					<div class="logo__title">Oh Data Science</div>
+					
+				</div>
+		</a>
+	</div>
+		<div class="divider"></div>
+	</div>
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[', '\\]']],
+      processEscapes: true,
+      processEnvironments: true
+    },
+    options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+  };
+
+  window.addEventListener('load', (event) => {
+      document.querySelectorAll("mjx-container").forEach(function(x){
+        x.parentElement.classList += 'has-jax'})
+    });
+
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</header>
+
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">A First Course In Bayesian Statistical Methods Chapter 6. Multivariate Normal Model, 2. Gibbs Sampling</h1>
+			
+		</header>
+<div class="post__toc toc">
+	<div class="toc__title"></div>
+	<div class="toc__menu">
+		<nav id="TableOfContents">
+  <ul>
+    <li><a href="#6-다변량-정규-모델multivariate-normal-model">6. 다변량 정규 모델(Multivariate normal model)</a></li>
+    <li><a href="#64-깁스-샘플러를-사용한-평균과-공분산-표본-추출">6.4 깁스 샘플러를 사용한 평균과 공분산 표본 추출</a>
+      <ul>
+        <li><a href="#예제--독해-시험">예제 : 독해 시험</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+	</div>
+</div>
+<div class="content post__content clearfix">
+			<h1 id="a-first-course-in-bayesian-statistical-methods">A First Course in Bayesian Statistical Methods</h1>
+<h2 id="6-다변량-정규-모델multivariate-normal-model">6. 다변량 정규 모델(Multivariate normal model)</h2>
+<h2 id="64-깁스-샘플러를-사용한-평균과-공분산-표본-추출">6.4 깁스 샘플러를 사용한 평균과 공분산 표본 추출</h2>
+<p>지난 포스팅에서 다음을 배웠습니다.</p>
+<p>$$
+{ \boldsymbol{\theta} | \mathbf{y_1}, &hellip;, \mathbf{y_n}, \Sigma } \sim MVN(\boldsymbol{\mu_n}, \Lambda_n) \<br>
+{ \Sigma | \mathbf{y_1}, &hellip;, \mathbf{y_n}, \boldsymbol{\theta} } \sim \text{inverse-Wishart}(\nu_n, \boldsymbol{S_n}^{-1})
+$$</p>
+<p>이 때 $\Lambda_n, \mu_n$은 식 (6.4), (6.5)에서 정의되었고, $\nu_n = \nu_0 + n$ , $\boldsymbol{S_n} = \boldsymbol{S_0} + \boldsymbol{S_{\theta}}$입니다.</p>
+<p>이 두 가지 full conditional distribution은 깁스 샘플러(Gibbs sampler)를 구축하는데 사용됩니다. 그리고 깁스 샘플러는 MCMC(Markov Chain Monte Carlo)를 통해 결합 사후 분포 $p(\boldsymbol{\theta}, \Sigma | \mathbf{y_1}, &hellip;, \mathbf{y_n})$로 근사시킵니다.</p>
+<p>시작 지점의 값 $\Sigma^{(0)}$이 주어졌을 때, 깁스 샘플러는 다음과 같은 두 단계를 통해 {$\theta^{(s)}, \Sigma^{(s)}$}에서 {$\theta^{(s+1)}, \Sigma^{(s+1)}$}을 만들 수 있습니다.</p>
+<ol>
+<li>
+<p>full conditional distribution에서 $\boldsymbol{\theta}^{(s+1)}$ 뽑기</p>
+<p>a) $\mathbf{y_1}, &hellip;, \mathbf{y_n}$와 $\Sigma^{(s)}$로 부터 $\boldsymbol{\mu_n}$과 $\Lambda_n$을 계산한다</p>
+<p>b) MVN($\mathbf{\mu_n}, \Lambda_n$)에서 $\mathbf{\theta}^{(s+1)}$을 뽑는다</p>
+</li>
+<li>
+<p>full conditional distribution에서 $\Sigma^{s+1}$ 뽑기</p>
+<p>a) $\mathbf{y_1}, &hellip;, \mathbf{y_n}$와 위에서 뽑은 $\boldsymbol{\theta}^{(s+1)}$로 부터 $\mathbf{S_n}$ 계산하기</p>
+<p>b) inverse-Wishart($\nu_0 + n, \boldsymbol{S_n}^{-1}$)에서 $\Sigma^{(s+1)}$ 뽑기</p>
+</li>
+</ol>
+<p>1-a)단계와 2-a)단계에서 중요한 사실은 {$\mu_n, \Lambda_n$}이 $\Sigma$값에 의존하고, $\boldsymbol{S_n}$이 $\mathbf{\theta}$에 의존하기 때문에 깁스 샘플러의 각각의 반복 회차에서 이 값들을 다시 계산해야만 한다는 것입니다.</p>
+<h3 id="예제--독해-시험">예제 : 독해 시험</h3>
+<p>사전 정보 :</p>
+<p>22명의 학생들이 1차, 2차 시험을 보고 그 22쌍의 성적들은 i.i.d. 다변량 정규분포를 따른다고 가정한다. 그리고 그 평균 점수는 50~100 사이의 값이 나오도록 설정되었습니다.</p>
+<p>목표 :</p>
+<p>사후 기댓값 $\mathbf{\theta}$와 사후 분산 $\Sigma$ 추정</p>
+<p>사전 파라미터 설정 :</p>
+<ol>
+<li>사전 기댓값</li>
+</ol>
+<p>$\mu_0 = (50,50)^T \Rightarrow$ 평균 점수가 50점에서 100점 사이이므로</p>
+<ol start="2">
+<li>사전 공분산 행렬($\Lambda_0$)</li>
+</ol>
+<p>점수가 0부터 100 사이의 값이 나와야 하므로, 이 구간 밖의 값이 나올 확률은 최대한 낮게 설정해야되기 때문에</p>
+<p>$\theta_1$의 사전 분산($= \lambda_{0,1}^2$) = $\theta_2$의 사전 분산($= \lambda_{0,2}^2$) = $(50/2)^2$ = 625</p>
+<p>로 설정하면 $Pr(\theta_j \notin [0,100]) = 0.05$가 됩니다.</p>
+<p>사전 공분산 행렬 $\Sigma$의 사전 분포 또한 이러한 시험 성적이 가질 수 있는 값에 대한 범위에 대한 몇 가지 로직이 적용됩니다.</p>
+<p>두 개의 시험이 비슷한 것을 측정하기 때문에, $\theta_1, \theta_2$의 값이 어떻든 비슷한 값을 가질 확률이 높습니다.</p>
+<p>따라서 이것을 사전 상관관계를 0.5로 설정하면서 반영하겠습니다. 즉 $\lambda_{1,2} = 312.5$입니다.</p>
+<ol start="4">
+<li>사전 표본 크기($\nu_0$와 잔차제곱합 행렬($\boldsymbol{S_0}$)</li>
+</ol>
+<p>$\boldsymbol{S_0}$은 $\Lambda_0$과 같다고 설정합니다.</p>
+<p>하지만 $\nu_0 = p+2 = 4$로 설정함으로써 $\Sigma$를 중심으로 느슨하게 퍼져있다고 하겠습니다.</p>
+<p>즉 다음과 같이 설정하도록 합시다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+
+mu0 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array([<span style="color:#ae81ff">50</span>,<span style="color:#ae81ff">50</span>])
+L0 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array([[<span style="color:#ae81ff">625</span>, <span style="color:#ae81ff">312.5</span>], [<span style="color:#ae81ff">312.5</span>,<span style="color:#ae81ff">625</span>]])
+
+nu0 <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>
+S0 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array([[<span style="color:#ae81ff">625</span>, <span style="color:#ae81ff">312.5</span>], [<span style="color:#ae81ff">312.5</span>,<span style="color:#ae81ff">625</span>]])
+</code></pre></div><p>데이터 :</p>
+<p>관찰된 데이터 값 $\mathbf{y_1}, &hellip;, \mathbf{y_2}$들은 <strong>그림 6.2</strong>의 두 번째 그래프에 점으로 찍혀있습니다.</p>
+<p>표본 평균</p>
+<p>$\mathbf{\bar{y}} = (47.18, 53.86)^T$</p>
+<p>표본 분산</p>
+<p>$s_1^2 = 182.16$</p>
+<p>$s_2^2 = 243.65$</p>
+<p>표본 상관관계</p>
+<p>$s_{1,2}/(s_1 s_2) = 0.70$</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> pandas <span style="color:#f92672">as</span> pd
+
+Y <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array([[<span style="color:#ae81ff">59</span>, <span style="color:#ae81ff">43</span>, <span style="color:#ae81ff">34</span>, <span style="color:#ae81ff">32</span>, <span style="color:#ae81ff">42</span>, <span style="color:#ae81ff">38</span>, <span style="color:#ae81ff">55</span>, <span style="color:#ae81ff">67</span>, <span style="color:#ae81ff">64</span>, <span style="color:#ae81ff">45</span>, <span style="color:#ae81ff">49</span>, <span style="color:#ae81ff">72</span>, <span style="color:#ae81ff">34</span>, 
+<span style="color:#ae81ff">70</span>, <span style="color:#ae81ff">34</span>, <span style="color:#ae81ff">50</span>, <span style="color:#ae81ff">41</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">60</span>, <span style="color:#ae81ff">34</span>, <span style="color:#ae81ff">28</span>, <span style="color:#ae81ff">35</span>],[<span style="color:#ae81ff">77</span>, <span style="color:#ae81ff">39</span>, <span style="color:#ae81ff">46</span>, <span style="color:#ae81ff">26</span>, <span style="color:#ae81ff">38</span>, <span style="color:#ae81ff">43</span>, <span style="color:#ae81ff">68</span>, 
+<span style="color:#ae81ff">86</span>, <span style="color:#ae81ff">77</span>, <span style="color:#ae81ff">60</span>, <span style="color:#ae81ff">50</span>, <span style="color:#ae81ff">59</span>, <span style="color:#ae81ff">38</span>, <span style="color:#ae81ff">48</span>, <span style="color:#ae81ff">55</span>, <span style="color:#ae81ff">58</span>, <span style="color:#ae81ff">54</span>, <span style="color:#ae81ff">60</span>, <span style="color:#ae81ff">75</span>, <span style="color:#ae81ff">47</span>, <span style="color:#ae81ff">48</span>, <span style="color:#ae81ff">33</span>]])<span style="color:#f92672">.</span>transpose()
+
+Y <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(Y)
+Y<span style="color:#f92672">.</span>columns <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;firsttest&#39;</span>, <span style="color:#e6db74">&#39;secondtest&#39;</span>]
+</code></pre></div><p>자 이제 깁스샘플러를 사용하여 이 데이터와 미리 설정한 사전 분포를 결합해 모수들의 추정값과 신뢰구간을 구해보도록 하겠습니다.</p>
+<p>우선 $\Sigma^{(0)}$을 표본 공분산 행렬과 같다고 설정하고 그것으로 부터 반복을 해보겠습니다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">n <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]
+Sigma <span style="color:#f92672">=</span> Y<span style="color:#f92672">.</span>cov()
+ybar <span style="color:#f92672">=</span> Y<span style="color:#f92672">.</span>apply(np<span style="color:#f92672">.</span>mean, axis <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>)
+
+<span style="color:#f92672">import</span> random
+<span style="color:#f92672">from</span> scipy.stats <span style="color:#f92672">import</span> wishart
+
+
+
+random<span style="color:#f92672">.</span>seed(<span style="color:#ae81ff">1</span>)
+THETA <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame()
+SIGMA <span style="color:#f92672">=</span> list()
+
+<span style="color:#66d9ef">for</span> s <span style="color:#f92672">in</span> np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">5000</span>):
+    
+    <span style="color:#75715e"># theta 업데이트</span>
+    
+    Ln <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linalg<span style="color:#f92672">.</span>inv( np<span style="color:#f92672">.</span>linalg<span style="color:#f92672">.</span>inv(L0) <span style="color:#f92672">+</span> n <span style="color:#f92672">*</span> np<span style="color:#f92672">.</span>linalg<span style="color:#f92672">.</span>inv(Sigma) )
+    mun <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>dot(Ln, np<span style="color:#f92672">.</span>dot(np<span style="color:#f92672">.</span>linalg<span style="color:#f92672">.</span>inv(L0), mu0) <span style="color:#f92672">+</span> n <span style="color:#f92672">*</span> np<span style="color:#f92672">.</span>dot(np<span style="color:#f92672">.</span>linalg<span style="color:#f92672">.</span>inv(Sigma), ybar))
+    theta <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>multivariate_normal(mun, Ln, <span style="color:#ae81ff">1</span>)
+    
+    
+    <span style="color:#75715e"># Sigma 업데이트</span>
+    
+    Sn <span style="color:#f92672">=</span> S0 <span style="color:#f92672">+</span> np<span style="color:#f92672">.</span>dot(np<span style="color:#f92672">.</span>transpose(Y <span style="color:#f92672">-</span> theta), Y<span style="color:#f92672">-</span>theta)
+    Sigma <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linalg<span style="color:#f92672">.</span>inv(wishart<span style="color:#f92672">.</span>rvs(nu0<span style="color:#f92672">+</span>n, np<span style="color:#f92672">.</span>linalg<span style="color:#f92672">.</span>inv(Sn)))
+    
+    <span style="color:#75715e"># 결과 저장</span>
+    
+    THETA <span style="color:#f92672">=</span> THETA<span style="color:#f92672">.</span>append(pd<span style="color:#f92672">.</span>DataFrame(theta))
+    SIGMA<span style="color:#f92672">.</span>append(Sigma<span style="color:#f92672">.</span>tolist())
+    
+    
+</code></pre></div><p>위의 코드로부터 경험적 분포가 $p(\boldsymbol{\theta}, \Sigma|\mathbf{y_1}, &hellip;, \mathbf{y_n})$으로 근사하는 5000개의 값 ({$\boldsymbol{\theta}^{(1)}, \Sigma^{(1)}$}, &hellip;, {$\boldsymbol{\theta}^{(5000)}, \Sigma^{(5000)}$})들을 생성했습니다(수렴성과 자기상관성 검사는 exercise로 남겨놓겠습니다!). 이 표본들로부터 사후 확률과 신뢰구간을 근사할 수 있게 됩니다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">pd<span style="color:#f92672">.</span>DataFrame(THETA[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">-</span> THETA[<span style="color:#ae81ff">0</span>])<span style="color:#f92672">.</span>quantile(q <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0.025</span>, <span style="color:#ae81ff">0.5</span>, <span style="color:#ae81ff">0.975</span>])<span style="color:#f92672">.</span>transpose()
+</code></pre></div><!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">np<span style="color:#f92672">.</span>mean(THETA[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">&gt;</span> THETA[<span style="color:#ae81ff">0</span>])
+</code></pre></div><pre><code>0.9926
+</code></pre>
+<p>사후 확률 $Pr(\theta_2 &gt; \theta_1 | \mathbf{y_1}, &hellip;, \mathbf{y_n}) = 0.99$가 의미하는 것은 우리가 큰 모집단에서 시험과 교육을 진행한다면 교육을 진행한 후 치러진 2차 시험의 평균 성적이 1차 시험보다 더 높다는 강한 증거입니다.</p>
+<p>이것의 증거는 <strong>그림 6.2</strong>의 첫 번째 그래프에서 시각적으로 볼 수 있습니다. 이 그래프는 $\boldsymbol{\theta} = (\theta_1, \theta_2)^T$의 결합 사후 분포에서 97.5%, 75%, 50%, 25% 그리고 2.5% HPD(Highest Posterior Density) 등고선을 보여줍니다. HPD 등고선은 2차원에서의 신뢰구간과 유사한 개념입니다. $\boldsymbol{\theta}$의 사후 분포 등고선은 대부분이 45도 선 $\theta_1 = \theta_2$ 위에 위치해있는 것을 확인할 수 있습니다.</p>
+<p><img src="https://user-images.githubusercontent.com/57588650/112321458-5e2ed080-8cf3-11eb-9ad6-ea19e10d7b7b.jpeg" alt="IMG_E870DBFB2139-1"></p>
+<p><strong>그림. 6.2</strong> 독해 시험 데이터와 사후 분포</p>
+<p>살짝 다른 얘기를 해봅시다. 그렇다면 무작위로 선택된 학생이 첫 번째 시험 보다 두 번째 시험을 더 잘봤을 확률은 어떻게 될까요? 그 답은 관찰값이 주어졌을 때 새로운 표본 ($Y_1, Y_2)^T$ 의 사후 예측 분포가 답이 될 수 있습니다. <strong>그림. 6.2</strong>에서 두 번째 그래프가 바로 사후 예측 분포의 HPD 등고선을 보여주고, 이는 $y_1 = y_2$ 겹치는 부분이 많긴 하지만 직선보다 대부분 위에 있다는 것을 알 수 있습니다.</p>
+<p>실제로 Pr$(Y_2 &gt; Y_1 | \mathbf{y_1}, &hellip;, \mathbf{y_n}) = 0.71$입니다. 그렇다면 어떻게 시험 사이에 있는 교육의 효과성을 측정할 수 있을까요? 한쪽 측면에서 보면 Pr($\theta_2 &gt; \theta_1 | \mathbf{y_1}, &hellip;, \mathbf{y_n}) = 0.99$이기 때문에 &ldquo;높은 수준의 차이&quot;를 보인다고 할 수도 있고 Pr$(Y_2 &gt; Y_1 | \mathbf{y_1}, &hellip;, \mathbf{y_n}) = 0.71$의 측면에서는 3분의 1 정도의 학생이 두 번째 시험에서 더 낮은 점수를 받을 수도 있다고 해석할 수도 있습니다. 이 두 가지 확률의 차이점은 첫 번째 확률이 $\theta_2$가 $\theta_1$보다 더 크다는 증거를 측정할 때, $\theta_2 - \theta_1$의 차이의 크기가 표본 변동성과 비교했을 때 크다는 것을 고려하지 않았기 때문입니다. 이러한 모집단을 비교하는 두 가지 방식의 혼동은 실험이나 설문조사 보고서를 작성할 대 빈번하게 일어납니다. 아주 큰 표본의 크기를 가지고 있는 연구들은 1과 아주 가까운 Pr($\theta_2 &gt; \theta_1 | \mathbf{y_1}, &hellip;, \mathbf{y_n})$를 결과로 산출(또는 p-value가 0에 아주 가깝다고 제안합니다)하게 되고 &ldquo;큰 효과가 있다&quot;고 제안합니다. 비록 그러한 결과가 무작위로 추출된 한 단위에 얼마나 큰 영향을 끼치는지는 알지 못하지만요.</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/bayesian/" rel="tag">Bayesian</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/python/" rel="tag">Python</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<div class="authorbox__header">
+		<span class="authorbox__name"></span>
+	</div>
+</div>
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/6_multivariate_normal_model_1._calculating_posterior_distribution_under_semiconjugate_prior/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;</span>
+			<p class="pager__title">A First Course In Bayesian Statistical Methods Chapter 6. Multivariate Normal Model, 1. Calculating Posterior Distribution Under Semiconjugate Prior</p>
+		</a>
+	</div>
+</nav>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2021 Tai Hwan Oh.
+			<span class="footer__copyright-credits"></span>
+		</div>
+	</div>
+</footer>
+
+
+	</div>
+<script async defer src="/js/menu.js"></script>
+
+</body>
+</html>

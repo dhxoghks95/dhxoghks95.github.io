@@ -11,7 +11,7 @@
 <meta property="og:description" content="오! 데이터 사이언스 블로그입니다." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="http://example.org/tags/bayesian/" />
-<meta property="og:updated_time" content="2021-03-18T17:34:01+09:00" />
+<meta property="og:updated_time" content="2021-03-25T18:22:38+09:00" />
 
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
@@ -72,6 +72,30 @@
 	<header class="main__header">
 		<h1 class="main__title">Bayesian</h1>
 	</header><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/mcmcintro/" rel="bookmark">
+			Bayesian Method with TensorFlow Chapter 3. MCMC(Markov Chain Monte Carlo) - 1. MCMC 소개
+			</a>
+		</h2>
+		
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		Bayesian Method with TensorFlow - Chapter3 MCMC(Markov Chain Monte Carlo) #@title Imports and Global Variables (make sure to run this cell) { display-mode: &#34;form&#34; } try: # %tensorflow_version only exists in Colab. %tensorflow_version 2.x except Exception: pass from __future__ import absolute_import, division, print_function #@markdown This sets the warning status (default is `ignore`, since this notebook runs correctly) warning_status = &#34;ignore&#34; #@param [&#34;ignore&#34;, &#34;always&#34;, &#34;module&#34;, &#34;once&#34;, &#34;default&#34;, &#34;error&#34;] import warnings warnings.filterwarnings(warning_status) with warnings.
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/ch2example/" rel="bookmark">
+			Bayesian Method with TensorFlow Chapter 2. 연습문제 풀이
+			</a>
+		</h2>
+		
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		Bayesian Method with TensorFlow - Chapter2 More on TensorFlow and TensorFlow Probability 연습문제 풀이 기본 설정 #@title Imports and Global Variables (make sure to run this cell) { display-mode: &#34;form&#34; } try: # %tensorflow_version only exists in Colab. %tensorflow_version 2.x except Exception: pass from __future__ import absolute_import, division, print_function #@markdown This sets the warning status (default is `ignore`, since this notebook runs correctly) warning_status = &#34;ignore&#34; #@param [&#34;ignore&#34;, &#34;always&#34;, &#34;module&#34;, &#34;once&#34;, &#34;default&#34;, &#34;error&#34;] import warnings warnings.
+	</div>
+</article><article class="list__item post">
 	<header class="list__header">
 		<h2 class="list__title post__title">
 			<a href="/challenger/" rel="bookmark">
@@ -170,44 +194,13 @@
 우리는 Random Variable을 세 가지로 분류할 수 있습니다.
   이산적인 Z : 이산적인 Random Variable은 유한한 목록에서의 값들을 가정합니다. 예를 들면 인구, 영화 평점, 그리고 득표 수 등이 이산적인 Random Variable이라고 할 수 있죠.
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/framework/" rel="bookmark">
-			Bayesian Method with TensorFlow Chapter 1. Introduction - 2. 베이지안 기초공사
-			</a>
-		</h2>
-		
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		Bayesian Method with TensorFlow - Chapter1 Introduction 2. 베이지안 기초공사 우리는 베이지안 처럼 생각할 때 확률로 해석될 수 있는 &ldquo;믿음&quot;에 관심이 있습니다. 우리는 A라는 사건에 대해 믿음을 가지고 있고, 그 믿음은 과거의 정보에 의해서 만들어진 것입니다. 예를 들자면 이전의 테스트에 의해 우리의 코드가 버그가 있는지 사전 믿음을 주는 것이죠.
-두 번째로, 우리는 증거를 찾습니다. 버그가 있는 코드 예시로 계속하자면, 만일 우리의 코드가 $X$개의 테스트들을 통과했다면, 우리는 우리의 믿음을 이것과 결합시키길 원할것입니다.
-	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/introduction/" rel="bookmark">
-			Bayesian Method with TensorFlow Chapter 1. Introduction - 1. Introduction
-			</a>
-		</h2>
-		
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		Bayesian Method with TensorFlow - Chapter1 Introduction 1. Introduction 이 포스트는 Cam Davison Pilon의
-Probabilistic-Programming-and-Bayesian-Methods-for-Hackers (깃헙링크)
-를 혼자 공부하기 위한 것입니다.
-Tensorflow 를 통해 bayesian method를 python으로 구현하는 공부가 될 것입니다.
-모든 게시물은 Google Colab으로 작성되었으며
-코드는 위의 깃헙 링크에서 원본을 보실 수 있습니다.
-천천히 시작해보도록 합시다!
-베이지안 추론의 철학  당신은 유능한 프로그래머지만, 여전히 당신의 코드에 버그가 발생한다. 어렵게 알고리즘을 고치고 일단 쉬운 예제로 테스트 해본다. 그 테스트가 통과한다면 점점 더 어려운 예제로 테스트한다.
-	</div>
 </article>
 </main>
 
 <div class="pagination">
 	<a class="pagination__item pagination__item--prev btn" href="/tags/bayesian/page/2/">«</a>
-	<span class="pagination__item pagination__item--current">3/3</span>
+	<span class="pagination__item pagination__item--current">3/4</span>
+	<a class="pagination__item pagination__item--next btn" href="/tags/bayesian/page/4/">»</a>
 </div>
 
 			</div>
@@ -217,6 +210,8 @@ Tensorflow 를 통해 bayesian method를 python으로 구현하는 공부가 될
 	<h4 class="widget__title"></h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/6_multivariate_normal_model_2._gibbs_sampling/">A First Course In Bayesian Statistical Methods Chapter 6. Multivariate Normal Model, 2. Gibbs Sampling</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/6_multivariate_normal_model_1._calculating_posterior_distribution_under_semiconjugate_prior/">A First Course In Bayesian Statistical Methods Chapter 6. Multivariate Normal Model, 1. Calculating Posterior Distribution Under Semiconjugate Prior</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/5_multi_parameter_model/">A First Course in Bayesian Statistical Methods Chapter 5. Multi Parameter Model</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/4_one_parameter_model_3_normal_model/">A First Course in Bayesian Statistical Methods Chapter 4 . One parameter model, 3. Normal Model</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/3_one_parameter_model_2_poisson_model/">A First Course in Bayesian Statistical Methods Chapter 3 . One parameter model, 2. Poisson Model &amp; Exponential Families and Conjugate Priors</a></li>
