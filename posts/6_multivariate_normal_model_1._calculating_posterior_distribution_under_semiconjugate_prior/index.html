@@ -252,8 +252,10 @@ $$</p>
 <p>만약 $z_i$들이 평균이 0인 모집단에서 뽑힌 표본들이라면, 행렬 $z_i z_i^T/n$을 벡터 $z_i$가 모든 관찰값의 공분산 행렬을 예측하는데 기여하는 것이라고 생각할 수 있습니다($Cov(Z) = \sum(z_i-\bar{z})^2 = \sum(z_i)^2 = z_i z_i^T$ if $\bar{z}$ = 0).</p>
 <p>그리고 이러한 평균이 0인 케이스에서는 $Z^T Z/n$가 모 공분산 행렬의 불편 추정량(unbiased estimator)인 표본 공분산 행렬과 같습니다.</p>
 <p>$$
-\frac{1}{n}[Z^T Z]<em>{j,j} = \frac{1}{n}\Sigma</em>{i=1}^{n} z^2_{i,j} = s_{j,j} = s^2_j \<br>
-\frac{1}{n}[Z^T Z]_{j,k} = \frac{1}{n}\Sigma_{i=1}^{n} z_{i,j} z_{i,k} = s_{j,k}
+\frac{1}{n} [Z^T Z]<em>{j,j}  = \frac{1}{n}\Sigma</em>{i=1}^{n} z^2_{i,j} = s_{j,j} = s^2_j
+$$</p>
+<p>$$
+\frac{1}{n}[Z^T Z]<em>{j,k} = \frac{1}{n}\Sigma^n</em>{i=1} z_{i,j} z_{i,k} = s_{j,k}
 $$</p>
 <p>만약 n&gt;p이고, $\boldsymbol{z_i}$들이 선형 독립이라면, $\mathbf{Z^T Z}$는 양의 정의를 만족하고 대칭행렬이 됩니다. 이러한 가정은 다음과 같은 방식으로 &ldquo;무작위&rdquo; 공분산 행렬(random covariance matrix)을 만들 수 있게 합니다. 양의 정수 $\nu_0$과 $p \times p$ 공분산 행렬 $\Phi_0$이 주어졌을 때,</p>
 <ol>
