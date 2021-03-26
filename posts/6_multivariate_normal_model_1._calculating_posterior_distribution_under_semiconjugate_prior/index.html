@@ -320,12 +320,12 @@ $$</p>
 <p>$\frac{1}{n} \mathbf{S_{\theta}} | \boldsymbol{\theta}$는 참 공분산 행렬 Cov[$\mathbf{Y}$]의 불편추정량을 제공합니다(더 일반적으로 $\boldsymbol{\theta}$가 표본에 조건부로 주어지지 않았을 때, 공분산 행렬은 $\Sigma (\mathbf{y_i} - \mathbf{\bar{y}})(\mathbf{y_i} - \mathbf{\bar{y}})^T/(n-1)$ 이고 이것은 $\Sigma$의 불편추정량입니다.).</p>
 <h3 id="sigma의-사후-분포">$\Sigma$의 사후 분포</h3>
 <p>자 이제 (6.7), (6.8) 사용하면 다음과 같은 $\Sigma$의 조건부 분포를 얻을 수 있습니다.</p>
-<p>\begin{align}
-p(\Sigma| \mathbf{y_1}, &hellip;, \mathbf{y_n}, \boldsymbol{\theta}) \newline
-\propto p(\Sigma) \times p(\mathbf{y_1}, &hellip;, \mathbf{y_n}|\boldsymbol{\theta}, \Sigma) \newline
-\propto \bigg( |\Sigma|^{-(\nu_0 + p + 1)/2} \text{exp} \bigg{-\text{tr}(\mathbf{S_0}\Sigma^{-1})/2 \bigg} \bigg) \times \bigg(|\Sigma|^{-n/2} \text{exp} \bigg{-\text{tr}(\mathbf{S_{\theta}}\Sigma^{-1})/2 \bigg} \bigg) \newline
+<p>$$
+p(\Sigma| \mathbf{y_1}, &hellip;, \mathbf{y_n}, \boldsymbol{\theta})  \<br>
+\propto p(\Sigma) \times p(\mathbf{y_1}, &hellip;, \mathbf{y_n}|\boldsymbol{\theta}, \Sigma) \<br>
+\propto \bigg( |\Sigma|^{-(\nu_0 + p + 1)/2} \text{exp} \bigg{-\text{tr}(\mathbf{S_0}\Sigma^{-1})/2 \bigg} \bigg) \times \bigg(|\Sigma|^{-n/2} \text{exp} \bigg{-\text{tr}(\mathbf{S_{\theta}}\Sigma^{-1})/2 \bigg} \bigg) \<br>
 = |\Sigma|^{-(\nu_0 + n + p + 1)/2} \text{exp} { -\text{tr}([\mathbf{S_0} + \mathbf{S_{\theta}}]\Sigma^{-1})/2 }
-\end{align}</p>
+$$</p>
 <p>즉 다음과 같은 결과를 얻게 됩니다.</p>
 <p>$$
 {\Sigma | \mathbf{y_1}, &hellip;, \mathbf{y_n}, \boldsymbol{\theta} } \sim \text{inverse-Wishart}(\nu_0 + n, [\mathbf{S_0} + \mathbf{S_{\theta}}]^{-1})
