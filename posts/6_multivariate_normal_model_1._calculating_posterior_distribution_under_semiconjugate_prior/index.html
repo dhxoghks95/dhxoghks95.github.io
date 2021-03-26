@@ -323,7 +323,7 @@ $$</p>
 <p>$$
 p(\Sigma| \mathbf{y_1}, &hellip;, \mathbf{y_n}, \boldsymbol{\theta})  \<br>
 \propto p(\Sigma) \times p(\mathbf{y_1}, &hellip;, \mathbf{y_n}|\boldsymbol{\theta}, \Sigma) \<br>
-\propto \bigg( |\Sigma|^{-(\nu_0 + p + 1)/2} \text{exp} \bigg{-\text{tr}(\mathbf{S_0}\Sigma^{-1})/2 \bigg} \bigg) \times \bigg(|\Sigma|^{-n/2} \text{exp} \bigg{-\text{tr}(\mathbf{S_{\theta}}\Sigma^{-1})/2 \bigg} \bigg) \<br>
+\propto \bigg( |\Sigma|^{-(\nu_0 + p + 1)/2} \text{exp} \bigg(-\text{tr}(\mathbf{S_0}\Sigma^{-1})/2 \bigg) \bigg) \times \bigg(|\Sigma|^{-n/2} \text{exp} \bigg(-\text{tr}(\mathbf{S_{\theta}}\Sigma^{-1})/2 \bigg) \bigg) \<br>
 = |\Sigma|^{-(\nu_0 + n + p + 1)/2} \text{exp} { -\text{tr}([\mathbf{S_0} + \mathbf{S_{\theta}}]\Sigma^{-1})/2 }
 $$</p>
 <p>즉 다음과 같은 결과를 얻게 됩니다.</p>
