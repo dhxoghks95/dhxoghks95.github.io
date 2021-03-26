@@ -82,10 +82,9 @@
 	</header>
 	<div class="content list__excerpt post__content clearfix">
 		A First Course in Bayesian Statistical Methods 6. 다변량 정규 모델(Multivariate normal model) 6.4 깁스 샘플러를 사용한 평균과 공분산 표본 추출 지난 포스팅에서 다음을 배웠습니다.
-$$ { \boldsymbol{\theta} | \mathbf{y_1}, &hellip;, \mathbf{y_n}, \Sigma } \sim MVN(\boldsymbol{\mu_n}, \Lambda_n) \
-{ \Sigma | \mathbf{y_1}, &hellip;, \mathbf{y_n}, \boldsymbol{\theta} } \sim \text{inverse-Wishart}(\nu_n, \boldsymbol{S_n}^{-1}) $$
+$$ { \boldsymbol{\theta} | \mathbf{y_1}, &hellip;, \mathbf{y_n}, \Sigma } \sim MVN(\boldsymbol{\mu_n}, \Lambda_n) $$
+$$ { \Sigma | \mathbf{y_1}, &hellip;, \mathbf{y_n}, \boldsymbol{\theta} } \sim \text{inverse-Wishart}(\nu_n, \boldsymbol{S_n}^{-1}) $$
 이 때 $\Lambda_n, \mu_n$은 식 (6.4), (6.5)에서 정의되었고, $\nu_n = \nu_0 + n$ , $\boldsymbol{S_n} = \boldsymbol{S_0} + \boldsymbol{S_{\theta}}$입니다.
-이 두 가지 full conditional distribution은 깁스 샘플러(Gibbs sampler)를 구축하는데 사용됩니다.
 	</div>
 </article><article class="list__item post">
 	<header class="list__header">
