@@ -6,7 +6,17 @@
     <description>Recent content on Oh Data Science</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Thu, 25 Mar 2021 18:22:38 +0900</lastBuildDate><atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 18 Apr 2021 18:32:23 +0900</lastBuildDate><atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A First Course In Bayesian Statistical Methods Chapter 7. Bayesian Hierarchical Modeling</title>
+      <link>http://example.org/posts/7_bayesian_hierarchical_modeling/</link>
+      <pubDate>Sun, 18 Apr 2021 18:32:23 +0900</pubDate>
+      
+      <guid>http://example.org/posts/7_bayesian_hierarchical_modeling/</guid>
+      <description>A First Course in Bayesian Statistical Methods 7. Bayesian Hierarchical Modeling 이 챕터에서는 다음과 같은 두 가지를 배워볼 것입니다.
+ 그룹간 평균 비교 - 각 그룹의 평균과 그룹간 평균의 차이 비교 정규 계층 모델(Normal Hierarchical Model) - 그룹 안의 변동성과 그룹간 변동성 측정, 그룹간 분산과 평균의 동질성 측정  7.1 그룹간 비교 그림. 8.1. 두 학교들의 수학 성적 표본을 나타낸 박스플롯과 두 학교의 모평균이 같다고 가정했을 때의 영분포(null distribution). 오른쪽 그림의 회색 선은 관찰값들의 t-통계량을 나타냅니다.</description>
+    </item>
+    
     <item>
       <title>A First Course In Bayesian Statistical Methods Chapter 6. Multivariate Normal Model, 2. Gibbs Sampling</title>
       <link>http://example.org/posts/6_multivariate_normal_model_2._gibbs_sampling/</link>
